@@ -43,4 +43,12 @@ public class StateCensusAnalyzerTest {
         checkEntries = stateCensus.loadStateCensusData(STATECENSUSCSVPATH);
         Assert.assertEquals(29, checkEntries);
     }
+
+    @Test
+    public void givenFile_HeaderIncorrect_shouldHandleException() throws CensusAnalyzerException {
+        StateCensusAnalyzer stateCensus = new StateCensusAnalyzer();
+        int checkEntries = 0;
+        checkEntries = stateCensus.loadStateCensusData(STATECENSUSCSVPATH);
+        Assert.assertEquals(29, checkEntries);
+    }
 }
