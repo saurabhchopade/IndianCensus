@@ -1,13 +1,19 @@
 package com.bridgelabz.IndianCensusAnalyzer.exception;
 
-public class CensusAnalyzerException extends Exception{
-
+public class CensusAnalyzerException extends Exception {
+    /**
+     * Enum used as Constant
+     */
     public enum exeptiontype {
-        FILEPATHNOTCORRECT;
+        FILEPATHNOTCORRECT, WRONGEXTESNSION, PARSINGERROR,FILEINTERNALISSUE;
     }
 
-    public  exeptiontype type;
+    public exeptiontype type;
 
+    /**
+     * @param type
+     * @param message
+     */
     public CensusAnalyzerException(exeptiontype type, String message) {
         super(message);
         this.type = type;
