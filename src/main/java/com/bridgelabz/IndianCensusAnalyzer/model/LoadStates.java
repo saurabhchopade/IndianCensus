@@ -1,19 +1,19 @@
-package com.bridgelabz.IndianCensusAnalyzer.util;
+package com.bridgelabz.IndianCensusAnalyzer.model;
 
 import com.opencsv.bean.CsvBindByName;
 
 public class LoadStates {
-    public class CSVUser {
-        @CsvBindByName(column = "")
-        private String name;
 
-        @CsvBindByName(column = "email", required = true)
-        private String email;
+        @CsvBindByName(column = "State")
+        private String State;
 
-        @CsvBindByName(column = "phone")
-        private String phoneNo;
+        @CsvBindByName(column = "Population")
+        private String Population;
 
-        @CsvBindByName
-        private String country;
+        @CsvBindByName(column = "AreaInSqKm")
+        private String AreaInSqKm;
+
+        @CsvBindByName(column = "DensityPerSqKm")
+        private String DensityPerSqKm;
 }
 

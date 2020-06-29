@@ -20,7 +20,6 @@ public class StateCensusAnalyzer {
      */
     public int loadStateCensusData(String StateCsvPath) throws IOException {
         int noOfEntries;
-        //Reading Csv File return NoOf Entries in csv
         try (
                 Reader reader = Files.newBufferedReader(Paths.get(StateCsvPath));
         ) {
