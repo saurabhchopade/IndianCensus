@@ -18,12 +18,10 @@ import java.util.stream.StreamSupport;
 public class StateCensusAnalyzer {
 
     public int loadStateCensusData(String StateCsvPath) throws CensusAnalyzerException {
-        int noOfEntries;
         try {
             try (Reader reader = Files.newBufferedReader(Paths.get(StateCsvPath))) {
                 Iterator<StatesCensusCSV> censusCsvIterator = this.getCSVFileIterator(reader, StatesCensusCSV.class);
-                Iterable<StatesCensusCSV> csvIterable = () -> censusCsvIterator;
-                noOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
+                return this.getCount(censusCsvIterator);
             }
         } catch (FileNotFoundException e) {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.WRONGEXTESNSION, "Please Enter Proper File Path");
@@ -32,16 +30,13 @@ public class StateCensusAnalyzer {
         } catch (RuntimeException e) {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEINTERNALISSUE, "Please check in file Content ");
         }
-        return noOfEntries;
     }
 
     public int loadStateCensusCodeData(String StateCodeCsvPath) throws CensusAnalyzerException {
-        int noOfEntries;
         try {
             try (Reader reader = Files.newBufferedReader(Paths.get(StateCodeCsvPath))) {
                 Iterator<StateCensusCodeCSV> censusCsvIterator = this.getCSVFileIterator(reader, StateCensusCode.class);
-                Iterable<StateCensusCodeCSV> csvIterable = () -> censusCsvIterator;
-                noOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
+                return this.getCount(censusCsvIterator);
             }
         } catch (FileNotFoundException e) {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.WRONGEXTESNSION, "Please Enter Proper File Extension");
@@ -50,6 +45,11 @@ public class StateCensusAnalyzer {
         } catch (RuntimeException e) {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEINTERNALISSUE, "Please check in file Content ");
         }
+    }
+
+    private <E> int getCount(Iterator<E> iterator) {
+        Iterable<E> csvIterable = () -> iterator;
+        int noOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
         return noOfEntries;
     }
 
