@@ -7,7 +7,6 @@ public class CensusAnalyzerException extends Exception {
     public enum exeptiontype {
         FILEPATHNOTCORRECT, WRONGEXTESNSION, PARSINGERROR,FILEINTERNALISSUE;
     }
-
     public exeptiontype type;
 
     /**

@@ -1,5 +1,4 @@
 package com.bridgelabz.IndianCensusAnalyzer.controller;
-
 import com.bridgelabz.IndianCensusAnalyzer.exception.CensusAnalyzerException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,7 +11,7 @@ public class StateCensusAnalyzerTest {
     @Test
     public void givenStateCensusCsvFile_LoadData_ShouldMatchNoOFRecords() throws CensusAnalyzerException {
         StateCensusAnalyzer stateCensus = new StateCensusAnalyzer();
-        int checkEntries = 0;
+        int checkEntries;
         checkEntries = stateCensus.loadStateCensusData(STATECENSUSCSVPATH);
         Assert.assertEquals(29, checkEntries);
     }
@@ -20,7 +19,7 @@ public class StateCensusAnalyzerTest {
     @Test
     public void givenFilePath_NotCorrect_shouldHandleException() throws CensusAnalyzerException {
         StateCensusAnalyzer stateCensus = new StateCensusAnalyzer();
-        int checkEntries = 0;
+        int checkEntries;
         checkEntries = stateCensus.loadStateCensusData(WRONGPATH);
         Assert.assertEquals(29, checkEntries);
 
@@ -29,7 +28,7 @@ public class StateCensusAnalyzerTest {
     @Test
     public void givenFilePath_FileExtensionNotCorrect_shouldHandleException() throws CensusAnalyzerException {
         StateCensusAnalyzer stateCensus = new StateCensusAnalyzer();
-        int checkEntries = 0;
+        int checkEntries;
         checkEntries = stateCensus.loadStateCensusData(WRONGEXTESNSION);
         Assert.assertEquals(29, checkEntries);
     }
@@ -37,7 +36,7 @@ public class StateCensusAnalyzerTest {
     @Test
     public void givenFile_DelimiterIncorrect_shouldHandleException() throws CensusAnalyzerException {
         StateCensusAnalyzer stateCensus = new StateCensusAnalyzer();
-        int checkEntries = 0;
+        int checkEntries;
         checkEntries = stateCensus.loadStateCensusData(STATECENSUSCSVPATH);
         Assert.assertEquals(29, checkEntries);
     }
@@ -45,7 +44,7 @@ public class StateCensusAnalyzerTest {
     @Test
     public void givenFile_HeaderIncorrect_shouldHandleException() throws CensusAnalyzerException {
         StateCensusAnalyzer stateCensus = new StateCensusAnalyzer();
-        int checkEntries = 0;
+        int checkEntries;
         checkEntries = stateCensus.loadStateCensusData(STATECENSUSCSVPATH);
         Assert.assertEquals(29, checkEntries);
     }
@@ -53,38 +52,38 @@ public class StateCensusAnalyzerTest {
     @Test
     public void givenStateCodeFile__shouldMatchNumberOfRecords() throws CensusAnalyzerException {
 
-        StateCensusCode stateCensusCode=new StateCensusCode();
-        int checkStateCodeEntries=0;
+        StateCensusCode stateCensusCode = new StateCensusCode();
+        int checkStateCodeEntries;
         checkStateCodeEntries=stateCensusCode.loadStateCensusCodeData(STATECODECSVPATH);
         Assert.assertEquals(37,checkStateCodeEntries);
     }
     @Test
     public void givenStateCodeFilePath_InCorrect_shouldHandleException() throws CensusAnalyzerException {
 
-        StateCensusCode stateCensusCode=new StateCensusCode();
-        int checkStateCodeEntries=0;
-        checkStateCodeEntries=stateCensusCode.loadStateCensusCodeData(WRONGPATH);
-        Assert.assertEquals(37,checkStateCodeEntries);
+        StateCensusCode stateCensusCode = new StateCensusCode();
+        int checkStateCodeEntries;
+        checkStateCodeEntries = stateCensusCode.loadStateCensusCodeData(WRONGPATH);
+        Assert.assertEquals(37, checkStateCodeEntries);
     }
     @Test
     public void givenStateCodeFilePath_FileExtensionNotCorrect_shouldHandleException() throws CensusAnalyzerException {
-        StateCensusCode stateCensusCode=new StateCensusCode();
-        int checkStateCodeEntries=0;
-        checkStateCodeEntries=stateCensusCode.loadStateCensusCodeData(WRONGEXTESNSION);
-        Assert.assertEquals(37,checkStateCodeEntries);
+        StateCensusCode stateCensusCode = new StateCensusCode();
+        int checkStateCodeEntries;
+        checkStateCodeEntries = stateCensusCode.loadStateCensusCodeData(WRONGEXTESNSION);
+        Assert.assertEquals(37, checkStateCodeEntries);
     }
     @Test
     public void givenStateCodeFile_DelimiterIncorrect_shouldHandleException() throws CensusAnalyzerException {
-        StateCensusCode stateCensusCode=new StateCensusCode();
-        int checkStateCodeEntries=0;
-        checkStateCodeEntries=stateCensusCode.loadStateCensusCodeData(STATECODECSVPATH);
-        Assert.assertEquals(37,checkStateCodeEntries);
+        StateCensusCode stateCensusCode = new StateCensusCode();
+        int checkStateCodeEntries;
+        checkStateCodeEntries = stateCensusCode.loadStateCensusCodeData(STATECODECSVPATH);
+        Assert.assertEquals(37, checkStateCodeEntries);
     }
     @Test
     public void givenStateCodeFile_HeaderIncorrect_shouldHandleException() throws CensusAnalyzerException {
-        StateCensusCode stateCensusCode=new StateCensusCode();
-        int checkStateCodeEntries=0;
-        checkStateCodeEntries=stateCensusCode.loadStateCensusCodeData(STATECODECSVPATH);
-        Assert.assertEquals(37,checkStateCodeEntries);
+        StateCensusCode stateCensusCode = new StateCensusCode();
+        int checkStateCodeEntries;
+        checkStateCodeEntries = stateCensusCode.loadStateCensusCodeData(STATECODECSVPATH);
+        Assert.assertEquals(37, checkStateCodeEntries);
     }
 }
