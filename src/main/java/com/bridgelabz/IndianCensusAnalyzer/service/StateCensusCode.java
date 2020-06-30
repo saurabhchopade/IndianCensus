@@ -37,4 +37,5 @@ public class StateCensusCode {
         }
         return noOfEntries;
     }
+
 }
