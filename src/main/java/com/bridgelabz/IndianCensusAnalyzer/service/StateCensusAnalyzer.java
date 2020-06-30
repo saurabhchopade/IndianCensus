@@ -21,8 +21,7 @@ public class StateCensusAnalyzer {
         int noOfEntries;
         try {
             try (Reader reader = Files.newBufferedReader(Paths.get(StateCsvPath))) {
-                CsvToBean<StatesCensusCSV> csvToBean = new CsvToBeanBuilder(reader).withType(StatesCensusCSV.class).withIgnoreLeadingWhiteSpace(true).build();
-                Iterator<StatesCensusCSV> censusCsvIterator = csvToBean.iterator();
+                Iterator<StatesCensusCSV> censusCsvIterator = this.getCSVFileIterator(reader, StatesCensusCSV.class);
                 Iterable<StatesCensusCSV> csvIterable = () -> censusCsvIterator;
                 noOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
             }
@@ -39,12 +38,8 @@ public class StateCensusAnalyzer {
     public int loadStateCensusCodeData(String StateCodeCsvPath) throws CensusAnalyzerException {
         int noOfEntries;
         try {
-            try (
-                    Reader reader = Files.newBufferedReader(Paths.get(StateCodeCsvPath))
-            ) {
-                CsvToBean<StateCensusCodeCSV> csvToBean = new CsvToBeanBuilder(reader).withType(StateCensusCodeCSV.class).
-                        withIgnoreLeadingWhiteSpace(true).build();
-                Iterator<StateCensusCodeCSV> censusCsvIterator = csvToBean.iterator();
+            try (Reader reader = Files.newBufferedReader(Paths.get(StateCodeCsvPath))) {
+                Iterator<StateCensusCodeCSV> censusCsvIterator = this.getCSVFileIterator(reader, StateCensusCode.class);
                 Iterable<StateCensusCodeCSV> csvIterable = () -> censusCsvIterator;
                 noOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
             }
@@ -56,6 +51,16 @@ public class StateCensusAnalyzer {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEINTERNALISSUE, "Please check in file Content ");
         }
         return noOfEntries;
+    }
+
+    private <E> Iterator<E> getCSVFileIterator(Reader reader, Class csvClass) throws CensusAnalyzerException {
+        try {
+            CsvToBean<E> csvToBean = new CsvToBeanBuilder(reader).withType(csvClass).
+                    withIgnoreLeadingWhiteSpace(true).build();
+            return csvToBean.iterator();
+        } catch (IllegalStateException e) {
+            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEINTERNALISSUE, "Please Provide Correct Data");
+        }
     }
 
 }
