@@ -1,7 +1,7 @@
-package com.bridgelabz.IndianCensusAnalyzer.controller;
+package com.bridgelabz.IndianCensusAnalyzer.service;
 
 import com.bridgelabz.IndianCensusAnalyzer.exception.CensusAnalyzerException;
-import com.bridgelabz.IndianCensusAnalyzer.model.LoadStateCode;
+import com.bridgelabz.IndianCensusAnalyzer.model.StateCensusCodeCSV;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -16,32 +16,24 @@ import java.util.stream.StreamSupport;
 
 public class StateCensusCode {
 
-    /**
-     * Reading Csv File return NoOf Entries in csv
-     *
-     * @param StateCodeCsvPath
-     * @return
-     */
     public int loadStateCensusCodeData(String StateCodeCsvPath) throws CensusAnalyzerException {
-        int noOfEntries = 0;
+        int noOfEntries;
         try {
             try (
-                    Reader reader = Files.newBufferedReader(Paths.get(StateCodeCsvPath));
+                    Reader reader = Files.newBufferedReader(Paths.get(StateCodeCsvPath))
             ) {
-                CsvToBean<LoadStateCode> csvToBean = new CsvToBeanBuilder(reader).withType(LoadStateCode.class).
+                CsvToBean<StateCensusCodeCSV> csvToBean = new CsvToBeanBuilder(reader).withType(StateCensusCodeCSV.class).
                         withIgnoreLeadingWhiteSpace(true).build();
-                Iterator<LoadStateCode> censusCsvIterator = csvToBean.iterator();
-                Iterable<LoadStateCode> csvIterable = () -> censusCsvIterator;
+                Iterator<StateCensusCodeCSV> censusCsvIterator = csvToBean.iterator();
+                Iterable<StateCensusCodeCSV> csvIterable = () -> censusCsvIterator;
                 noOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
             }
         } catch (FileNotFoundException e) {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.WRONGEXTESNSION, "Please Enter Proper File Extension");
-        } catch (InvalidPathException e) {
+        } catch (InvalidPathException | IOException e) {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, "Please Enter Proper File Path");
         } catch (RuntimeException e) {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEINTERNALISSUE, "Please check in file Content ");
-        } catch (IOException e) {
-            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, "Please Enter Proper File Path");
         }
         return noOfEntries;
     }

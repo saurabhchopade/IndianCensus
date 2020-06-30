@@ -1,4 +1,4 @@
-package com.bridgelabz.IndianCensusAnalyzer.controller;
+package com.bridgelabz.IndianCensusAnalyzer.service;
 import com.bridgelabz.IndianCensusAnalyzer.exception.CensusAnalyzerException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,7 +22,6 @@ public class StateCensusAnalyzerTest {
         int checkEntries;
         checkEntries = stateCensus.loadStateCensusData(WRONGPATH);
         Assert.assertEquals(29, checkEntries);
-
     }
 
     @Test
@@ -72,6 +71,7 @@ public class StateCensusAnalyzerTest {
         checkStateCodeEntries = stateCensusCode.loadStateCensusCodeData(WRONGEXTESNSION);
         Assert.assertEquals(37, checkStateCodeEntries);
     }
+
     @Test
     public void givenStateCodeFile_DelimiterIncorrect_shouldHandleException() throws CensusAnalyzerException {
         StateCensusCode stateCensusCode = new StateCensusCode();
@@ -79,6 +79,7 @@ public class StateCensusAnalyzerTest {
         checkStateCodeEntries = stateCensusCode.loadStateCensusCodeData(STATECODECSVPATH);
         Assert.assertEquals(37, checkStateCodeEntries);
     }
+
     @Test
     public void givenStateCodeFile_HeaderIncorrect_shouldHandleException() throws CensusAnalyzerException {
         StateCensusCode stateCensusCode = new StateCensusCode();
