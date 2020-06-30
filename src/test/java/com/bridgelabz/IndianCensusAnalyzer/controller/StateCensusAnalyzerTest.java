@@ -73,4 +73,11 @@ public class StateCensusAnalyzerTest {
         checkStateCodeEntries=stateCensusCode.loadStateCensusCodeData(WRONGEXTESNSION);
         Assert.assertEquals(37,checkStateCodeEntries);
     }
+    @Test
+    public void givenStateCodeFile_DelimiterIncorrect_shouldHandleException() throws CensusAnalyzerException {
+        StateCensusCode stateCensusCode=new StateCensusCode();
+        int checkStateCodeEntries=0;
+        checkStateCodeEntries=stateCensusCode.loadStateCensusCodeData(STATECODECSVPATH);
+        Assert.assertEquals(37,checkStateCodeEntries);
+    }
 }
