@@ -66,4 +66,11 @@ public class StateCensusAnalyzerTest {
         checkStateCodeEntries=stateCensusCode.loadStateCensusCodeData(WRONGPATH);
         Assert.assertEquals(37,checkStateCodeEntries);
     }
+    @Test
+    public void givenStateCodeFilePath_FileExtensionNotCorrect_shouldHandleException() throws CensusAnalyzerException {
+        StateCensusCode stateCensusCode=new StateCensusCode();
+        int checkStateCodeEntries=0;
+        checkStateCodeEntries=stateCensusCode.loadStateCensusCodeData(WRONGEXTESNSION);
+        Assert.assertEquals(37,checkStateCodeEntries);
+    }
 }
