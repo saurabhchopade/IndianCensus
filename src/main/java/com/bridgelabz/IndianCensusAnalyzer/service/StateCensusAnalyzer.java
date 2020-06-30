@@ -17,17 +17,19 @@ public class StateCensusAnalyzer {
 
     public int loadStateCensusData(String StateCsvPath) throws CensusAnalyzerException {
         try {
-            try (Reader reader = Files.newBufferedReader(Paths.get(StateCsvPath))) {
+            Reader reader = Files.newBufferedReader(Paths.get(StateCsvPath));
+
                 OpenCsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
                 Iterator<StatesCensusCSV> censusCsvIterator = csvBuilder.getCSVFileIterator(reader, StatesCensusCSV.class);
                 return this.getCount(censusCsvIterator);
             }
-        } catch (FileNotFoundException e) {
+         catch (FileNotFoundException e) {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.WRONGEXTESNSION, "Please Enter Proper File Path");
-        } catch (InvalidPathException | IOException e) {
-            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, "Please Enter Proper File Path");
         } catch (RuntimeException e) {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEINTERNALISSUE, "Please check in file Content ");
+        }
+        catch (IOException e) {
+            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, "Please Enter Proper File Path");
         }
     }
 
