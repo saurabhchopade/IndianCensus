@@ -1,5 +1,6 @@
 package com.bridgelabz.IndianCensusAnalyzer.service;
 import com.bridgelabz.IndianCensusAnalyzer.exception.CensusAnalyzerException;
+import com.bridgelabz.IndianCensusAnalyzer.model.StateCensusCodeCSV;
 import com.bridgelabz.IndianCensusAnalyzer.model.StatesCensusCSV;
 import com.google.gson.Gson;
 import org.junit.Assert;
@@ -13,7 +14,7 @@ public class StateCensusAnalyzerTest {
     private static final String WRONGSTATEDELIMITER = "/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/test/resources/IndiaStateCensusDataDelimiter.csv";
     private static final String WRONGSTATEHEADER = "/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/test/resources/IndiaStateCensusDataDelimiter.csv";
 
-    private static final String STATECODECSVPATH = "/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/test/resources/IndiaStateCode.csv";
+    private static final String STATECODECSVPATH = "/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/main/resources/IndiaStateCode.csv";
     private static final String STATECODEDELIMITER = "/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/test/resources/IndiaStateCodeDelimiter.csv";
     private static final String STATECODEHEADER = "/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/test/resources/IndiaStateCodeHeader.csv";
     StateCensusAnalyzer stateCensusAnalyzer;
@@ -113,4 +114,21 @@ public class StateCensusAnalyzerTest {
         StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
         Assert.assertEquals("West Bengal", statesCensusCSV[28].state);
     }
+
+    @Test
+    public void givenStateCensusCodeData_SortBasedOnStateCode_ShouldReturnSortedResultAndCrossCheckFirstStateCode() throws CensusAnalyzerException {
+        stateCensusAnalyzer.loadStateCensusCodeData(STATECODECSVPATH);
+        String sortedCensusData = stateCensusAnalyzer.getStateCodeWiseSortedCensusData();
+        StateCensusCodeCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusCodeCSV[].class);
+        Assert.assertEquals("AD", statesCensusCSV[0].stateCode);
+    }
+
+    @Test
+    public void givenStateCensusCodeData_SortBasedOnStateCode_ShouldReturnSortedResultAndCrossCheckLastStateCode() throws CensusAnalyzerException {
+        stateCensusAnalyzer.loadStateCensusCodeData(STATECODECSVPATH);
+        String sortedCensusData = stateCensusAnalyzer.getStateCodeWiseSortedCensusData();
+        StateCensusCodeCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusCodeCSV[].class);
+        Assert.assertEquals("WB", statesCensusCSV[36].stateCode);
+    }
+
 }
