@@ -124,11 +124,19 @@ public class StateCensusAnalyzerTest {
     }
 
     @Test
-    public void givenStateCensusCodeData_SortBasedOnStateCode_ShouldReturnSortedResultAndCrossCheckLastStateCode() throws CensusAnalyzerException {
-        stateCensusAnalyzer.loadStateCensusCodeData(STATECODECSVPATH);
-        String sortedCensusData = stateCensusAnalyzer.getStateCodeWiseSortedCensusData();
-        StateCensusCodeCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusCodeCSV[].class);
-        Assert.assertEquals("WB", statesCensusCSV[36].stateCode);
+    public void givenStateCensusData_SortBasedOnPopulation_ShouldReturnSortedResultAndHighestPopulousState() throws CensusAnalyzerException {
+        stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
+        String sortedCensusData = stateCensusAnalyzer.getPopulousStateWiseSortedCensusData();
+        StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
+        Assert.assertEquals("199812341", statesCensusCSV[28].population);
+    }
+
+    @Test
+    public void givenStateCensusData_SortBasedOnPopulation_ShouldReturnSortedResultAndLowestPopulousState() throws CensusAnalyzerException {
+        stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
+        String sortedCensusData = stateCensusAnalyzer.getPopulousStateWiseSortedCensusData();
+        StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
+        Assert.assertEquals("607688", statesCensusCSV[0].population);
     }
 
 }
