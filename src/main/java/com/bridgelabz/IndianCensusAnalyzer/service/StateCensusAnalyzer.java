@@ -91,6 +91,22 @@ public class StateCensusAnalyzer {
     }
 
     /**
+     * Sort As Per DensityPerSqKM
+     * @return
+     * @throws CensusAnalyzerException
+     */
+    public String getPopulousStateWiseSortedCensusData() throws CensusAnalyzerException {
+        if (censusCSVList == null || censusCSVList.size() == 0) {
+            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.NOCENSUSDATA, "No Census Data");
+        }
+        Comparator<StatesCensusCSV> censusCSVComparator = Comparator.comparing(census -> census.population);
+        this.sorting(censusCSVList, censusCSVComparator);
+        String sortedStateCensusJson = new Gson().toJson(censusCSVList);
+        return sortedStateCensusJson;
+    }
+
+
+    /**
      * Sort As per StateCode
      * @return
      * @throws CensusAnalyzerException
@@ -114,7 +130,7 @@ public class StateCensusAnalyzer {
             for (int j = 0; j < csvFileList.size() - i - 1; j++) {
                 E census1 = csvFileList.get(j);
                 E census2 = csvFileList.get(j + 1);
-                if (censusCSVComparator.compare(census1, census2) > 0) {
+                if (censusCSVComparator.compare(census1, census2) < 0) {
                     csvFileList.set(j, census2);
                     csvFileList.set(j + 1, census1);
                 }
