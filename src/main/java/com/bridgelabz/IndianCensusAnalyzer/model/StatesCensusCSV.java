@@ -6,16 +6,26 @@ public class StatesCensusCSV {
         /**
          * Here We Match the Header value for further use
          */
-        @CsvBindByName(column = "State")
-        private String State;
+        @CsvBindByName(column = "State",required = true)
+        public String state;
 
-        @CsvBindByName(column = "Population")
-        private String Population;
+        @CsvBindByName(column = "Population",required = true)
+        public String population;
 
-        @CsvBindByName(column = "AreaInSqKm")
-        private String AreaInSqKm;
+        @CsvBindByName(column = "AreaInSqKm",required = true)
+        public String areaInSqKm;
 
-        @CsvBindByName(column = "DensityPerSqKm")
-        private String DensityPerSqKm;
+        @CsvBindByName(column = "DensityPerSqKm",required = true)
+        public String densityPerSqKm;
+
+        @Override
+        public String toString() {
+                return "StatesCensusCSV {" +
+                        "State='" + state + '\'' +
+                        ", Population='" + population + '\'' +
+                        ", AreaInSqKm='" + areaInSqKm + '\'' +
+                        ", DensityPerSqKm='" + densityPerSqKm + '\'' +
+                        '}';
+        }
 }
 
