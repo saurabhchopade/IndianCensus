@@ -60,7 +60,7 @@ public class StateCensusAnalyzerTest {
         checkEntries = stateCensus.loadStateCensusData(WRONGSTATEHEADER);
         Assert.assertEquals(29, checkEntries);
     }
-//============================
+//===========================
     @Test
     public void givenStateCodeFile__shouldMatchNumberOfRecords() throws CensusAnalyzerException {
         int checkStateCodeEntries;
