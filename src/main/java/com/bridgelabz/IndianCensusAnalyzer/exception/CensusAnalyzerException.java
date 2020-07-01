@@ -6,7 +6,7 @@ public class CensusAnalyzerException extends Exception {
      * Enum used as Constant
      */
     public enum exeptiontype {
-        FILEPATHNOTCORRECT, WRONGEXTESNSION, PARSINGERROR, FILEINTERNALISSUE;
+        FILEPATHNOTCORRECT, WRONGEXTESNSION, PARSINGERROR, FILEINTERNALISSUE,NOCENSUSDATA;
     }
 
     public exeptiontype type;

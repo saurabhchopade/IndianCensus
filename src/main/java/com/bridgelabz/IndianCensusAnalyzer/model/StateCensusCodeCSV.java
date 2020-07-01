@@ -17,4 +17,5 @@ public class StateCensusCodeCSV {
 
     @CsvBindByName(column = "StateCode")
     private String StateCode;
+
 }
