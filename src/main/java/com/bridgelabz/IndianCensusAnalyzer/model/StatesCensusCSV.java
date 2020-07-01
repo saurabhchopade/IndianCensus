@@ -3,7 +3,9 @@ package com.bridgelabz.IndianCensusAnalyzer.model;
 import com.opencsv.bean.CsvBindByName;
 
 public class StatesCensusCSV {
-
+        /**
+         * Here We Match the Header value for further use
+         */
         @CsvBindByName(column = "State")
         private String State;
 
