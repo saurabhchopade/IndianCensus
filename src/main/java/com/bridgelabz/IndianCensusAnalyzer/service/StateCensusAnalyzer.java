@@ -13,9 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.StreamSupport;
 
 public class StateCensusAnalyzer {
     List<StatesCensusCSV> censusCSVList = null;
@@ -67,12 +65,6 @@ public class StateCensusAnalyzer {
         } catch (CsvBuilderException e) {
             throw new CensusAnalyzerException(e.getMessage(), e.type.name());
         }
-    }
-
-    private <E> int getCount(Iterator<E> iterator) {
-        Iterable<E> csvIterable = () -> iterator;
-        int noOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
-        return noOfEntries;
     }
 
     /**
