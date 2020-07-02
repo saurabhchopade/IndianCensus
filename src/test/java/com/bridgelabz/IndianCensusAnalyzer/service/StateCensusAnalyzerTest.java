@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+
 public class StateCensusAnalyzerTest {
     private static final String STATECENSUSCSVPATH = "/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/test/resources/IndiaStateCensusData.csv";
     private static final String WRONGPATH = "/home/saurabh/IdeaProjects/IndianateCensusData.csv";
@@ -165,7 +167,7 @@ public class StateCensusAnalyzerTest {
     }
 
     @Test
-    public void givenStateCensusData_SortBasedOnArea_ShouldReturnSortedResultAndHighestPopulationDencityState() throws CensusAnalyzerException {
+    public void givenStateCensusData_SortBasedOnArea_ShouldReturnSortedResultAndHighestPopulationDencityState() throws CensusAnalyzerException, IOException {
         stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
         String sortedCensusData = stateCensusAnalyzer.getAreaWiseWiseSortedStateCensusData();
         StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
@@ -173,7 +175,7 @@ public class StateCensusAnalyzerTest {
     }
 
     @Test
-    public void givenStateCensusData_SortBasedOnArea_ShouldReturnSortedResultAndLowestPopulationDensityState() throws CensusAnalyzerException {
+    public void givenStateCensusData_SortBasedOnArea_ShouldReturnSortedResultAndLowestPopulationDensityState() throws CensusAnalyzerException, IOException {
         stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
         String sortedCensusData = stateCensusAnalyzer.getAreaWiseWiseSortedStateCensusData();
         StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);

@@ -7,6 +7,7 @@ import com.bridgelabz.IndianCensusAnalyzer.model.StatesCensusCSV;
 import com.google.gson.Gson;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -119,14 +120,20 @@ public class StateCensusAnalyzer {
      * @return
      * @throws CensusAnalyzerException
      */
-    public String getAreaWiseWiseSortedStateCensusData() throws CensusAnalyzerException {
+    public String getAreaWiseWiseSortedStateCensusData() throws CensusAnalyzerException, IOException {
         if (censusCSVList == null || censusCSVList.size() == 0) {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.NOCENSUSDATA, "No Census Data");
         }
         Comparator<StatesCensusCSV> censusCSVComparator = Comparator.comparing(census -> census.areaInSqKm);
         this.sorting(censusCSVList, censusCSVComparator);
         String sortedStateCensusJson = new Gson().toJson(censusCSVList);
+        Gson gson = new Gson();
+        String json = gson.toJson(sortedStateCensusJson);
+        FileWriter writer = new FileWriter("/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/main/resources/sortedJson.json");
+        writer.write(json);
+        writer.close();
         return sortedStateCensusJson;
+
     }
 
     /**
@@ -146,6 +153,7 @@ public class StateCensusAnalyzer {
     }
 
     /**
+     * Sorting method do sort
      * @param csvFileList
      * @param censusCSVComparator
      */
