@@ -45,62 +45,94 @@ public class StateCensusAnalyzerTest {
     }
 
     @Test
-    public void givenFilePath_FileExtensionNotCorrect_shouldHandleException() throws CensusAnalyzerException {
-        int checkEntries;
-        checkEntries = stateCensusAnalyzer.loadStateCensusData(WRONGEXTESNSION);
-        Assert.assertEquals(29, checkEntries);
+    public void givenFilePath_FileExtensionNotCorrect_shouldHandleException() {
+        try {
+            int checkEntries;
+            checkEntries = stateCensusAnalyzer.loadStateCensusData(WRONGEXTESNSION);
+            Assert.assertEquals(29, checkEntries);
+        } catch (CensusAnalyzerException e) {
+            Assert.assertEquals(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, e.type);
+        }
     }
 
     @Test
-    public void givenFile_DelimiterIncorrect_shouldHandleException() throws CensusAnalyzerException {
-        int checkEntries;
-        checkEntries = stateCensusAnalyzer.loadStateCensusData(WRONGSTATEDELIMITER);
-        Assert.assertEquals(29, checkEntries);
+    public void givenFile_DelimiterIncorrect_shouldHandleException() {
+        try {
+            int checkEntries;
+            checkEntries = stateCensusAnalyzer.loadStateCensusData(WRONGSTATEDELIMITER);
+            Assert.assertEquals(29, checkEntries);
+        } catch (CensusAnalyzerException e) {
+            Assert.assertEquals(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, e.type);
+        }
     }
 
     @Test
-    public void givenFile_HeaderIncorrect_shouldHandleException() throws CensusAnalyzerException {
-        int checkEntries;
-        checkEntries = stateCensusAnalyzer.loadStateCensusData(WRONGSTATEHEADER);
-        Assert.assertEquals(29, checkEntries);
-    }
-
-    //============================
-    @Test
-    public void givenStateCodeFile__shouldMatchNumberOfRecords() throws CensusAnalyzerException {
-        int checkStateCodeEntries;
-        checkStateCodeEntries = stateCensusAnalyzer.loadStateCensusCodeData(STATECODECSVPATH);
-        Assert.assertEquals(37, checkStateCodeEntries);
+    public void givenFile_HeaderIncorrect_shouldHandleException() {
+        try {
+            int checkEntries;
+            checkEntries = stateCensusAnalyzer.loadStateCensusData(WRONGSTATEHEADER);
+            Assert.assertEquals(29, checkEntries);
+        } catch (CensusAnalyzerException e) {
+            Assert.assertEquals(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, e.type);
+        }
     }
 
     @Test
-    public void givenStateCodeFilePath_InCorrect_shouldHandleException() throws CensusAnalyzerException {
-        int checkStateCodeEntries;
-        checkStateCodeEntries = stateCensusAnalyzer.loadStateCensusCodeData(WRONGPATH);
-        Assert.assertEquals(37, checkStateCodeEntries);
-    }
-    @Test
-    public void givenStateCodeFilePath_FileExtensionNotCorrect_shouldHandleException() throws CensusAnalyzerException {
-        int checkStateCodeEntries;
-        checkStateCodeEntries = stateCensusAnalyzer.loadStateCensusCodeData(WRONGEXTESNSION);
-        Assert.assertEquals(37, checkStateCodeEntries);
+    public void givenStateCodeFile__shouldMatchNumberOfRecords() {
+        try {
+            int checkStateCodeEntries;
+            checkStateCodeEntries = stateCensusAnalyzer.loadStateCensusCodeData(STATECODECSVPATH);
+            Assert.assertEquals(37, checkStateCodeEntries);
+        } catch (CensusAnalyzerException e) {
+            Assert.assertEquals(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, e.type);
+        }
     }
 
     @Test
-    public void givenStateCodeFile_DelimiterIncorrect_shouldHandleException() throws CensusAnalyzerException {
-        int checkStateCodeEntries;
-        checkStateCodeEntries = stateCensusAnalyzer.loadStateCensusCodeData(STATECODEDELIMITER);
-        Assert.assertEquals(37, checkStateCodeEntries);
+    public void givenStateCodeFilePath_InCorrect_shouldHandleException() {
+        try {
+            int checkStateCodeEntries;
+            checkStateCodeEntries = stateCensusAnalyzer.loadStateCensusCodeData(WRONGPATH);
+            Assert.assertEquals(37, checkStateCodeEntries);
+        } catch (CensusAnalyzerException e) {
+            Assert.assertEquals(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, e.type);
+        }
     }
 
     @Test
-    public void givenStateCodeFile_HeaderIncorrect_shouldHandleException() throws CensusAnalyzerException {
-        int checkStateCodeEntries;
-        checkStateCodeEntries = stateCensusAnalyzer.loadStateCensusCodeData(STATECODEHEADER);
-        Assert.assertEquals(37, checkStateCodeEntries);
+    public void givenStateCodeFilePath_FileExtensionNotCorrect_shouldHandleException() {
+        try {
+            int checkStateCodeEntries;
+            checkStateCodeEntries = stateCensusAnalyzer.loadStateCensusCodeData(WRONGEXTESNSION);
+            Assert.assertEquals(37, checkStateCodeEntries);
+        } catch (CensusAnalyzerException e) {
+            Assert.assertEquals(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, e.type);
+        }
     }
 
-    //=====================================
+    @Test
+    public void givenStateCodeFile_DelimiterIncorrect_shouldHandleException() {
+        try {
+            int checkStateCodeEntries;
+            checkStateCodeEntries = stateCensusAnalyzer.loadStateCensusCodeData(STATECODEDELIMITER);
+            Assert.assertEquals(37, checkStateCodeEntries);
+        } catch (CensusAnalyzerException e) {
+            Assert.assertEquals(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, e.type);
+        }
+    }
+
+    @Test
+    public void givenStateCodeFile_HeaderIncorrect_shouldHandleException() {
+        try {
+            int checkStateCodeEntries;
+            checkStateCodeEntries = stateCensusAnalyzer.loadStateCensusCodeData(STATECODEHEADER);
+            Assert.assertEquals(37, checkStateCodeEntries);
+        } catch (CensusAnalyzerException e) {
+            Assert.assertEquals(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, e.type);
+        }
+    }
+
+    //=======================================================================================================
     @Test
     public void givenStateCensusData_SortBasedOnState_ShouldReturnSortedResult() throws CensusAnalyzerException {
         stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
@@ -133,53 +165,25 @@ public class StateCensusAnalyzerTest {
         Assert.assertEquals("WB", statesCensusCSV[36].stateCode);
     }
 
+    //====================================================================================================
     @Test
-    public void givenStateCensusData_SortBasedOnPopulation_ShouldReturnSortedResultAndHighestPopulousState() throws CensusAnalyzerException {
+    public void givenStateCensusData_SortBasedOnPopulation_ShouldReturnSortedResultAndLowestPopulousState() throws CensusAnalyzerException, IOException {
         stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
-        String sortedCensusData = stateCensusAnalyzer.getPopulousStateWiseSortedCensusData();
-        StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
-        Assert.assertEquals("10116752", statesCensusCSV[0].population);
+        int noOfStateSorted = stateCensusAnalyzer.getPopulousStateWiseSortedCensusData();
+        Assert.assertEquals(29, noOfStateSorted);
     }
 
     @Test
-    public void givenStateCensusData_SortBasedOnPopulation_ShouldReturnSortedResultAndLowestPopulousState() throws CensusAnalyzerException {
+    public void givenStateCensusData_SortBasedOnPopulationDensity_ShouldReturnSortedResultAndLowestPopulationDensityState() throws CensusAnalyzerException, IOException {
         stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
-        String sortedCensusData = stateCensusAnalyzer.getPopulousStateWiseSortedCensusData();
-        StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
-        Assert.assertEquals("91347736", statesCensusCSV[28].population);
-    }
-
-
-    @Test
-    public void givenStateCensusData_SortBasedOnPopulationDensity_ShouldReturnSortedResultAndHighestPopulationDencityState() throws CensusAnalyzerException {
-        stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
-        String sortedCensusData = stateCensusAnalyzer.getPopulationDensityStateWiseSortedCensusData();
-        StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
-        Assert.assertEquals("1029", statesCensusCSV[0].densityPerSqKm);
+        int noOfStateSorted = stateCensusAnalyzer.getPopulationDensityStateWiseSortedCensusData();
+        Assert.assertEquals(29, noOfStateSorted);
     }
 
     @Test
-    public void givenStateCensusData_SortBasedOnPopulationDensity_ShouldReturnSortedResultAndLowestPopulationDensityState() throws CensusAnalyzerException {
+    public void givenStateCensusData_SortBasedOnArea_ShouldReturnSortedResultState() throws CensusAnalyzerException, IOException {
         stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
-        String sortedCensusData = stateCensusAnalyzer.getPopulationDensityStateWiseSortedCensusData();
-        StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
-        Assert.assertEquals("86", statesCensusCSV[28].densityPerSqKm);
+        int noOfStateSorted = stateCensusAnalyzer.getAreaWiseWiseSortedStateCensusData();
+        Assert.assertEquals(29, noOfStateSorted);
     }
-
-    @Test
-    public void givenStateCensusData_SortBasedOnArea_ShouldReturnSortedResultAndHighestPopulationDencityState() throws CensusAnalyzerException, IOException {
-        stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
-        String sortedCensusData = stateCensusAnalyzer.getAreaWiseWiseSortedStateCensusData();
-        StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
-        Assert.assertEquals("10486", statesCensusCSV[0].areaInSqKm);
-    }
-
-    @Test
-    public void givenStateCensusData_SortBasedOnArea_ShouldReturnSortedResultAndLowestPopulationDensityState() throws CensusAnalyzerException, IOException {
-        stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
-        String sortedCensusData = stateCensusAnalyzer.getAreaWiseWiseSortedStateCensusData();
-        StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
-        Assert.assertEquals("94163", statesCensusCSV[28].areaInSqKm);
-    }
-
 }
