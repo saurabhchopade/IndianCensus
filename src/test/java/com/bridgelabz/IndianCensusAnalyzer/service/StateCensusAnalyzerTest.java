@@ -157,11 +157,27 @@ public class StateCensusAnalyzerTest {
     }
 
     @Test
-    public void givenStateCensusData_SortBasedOnPopulation_ShouldReturnSortedResultAndLowestPopulationDensityState() throws CensusAnalyzerException {
+    public void givenStateCensusData_SortBasedOnPopulationDensity_ShouldReturnSortedResultAndLowestPopulationDensityState() throws CensusAnalyzerException {
         stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
         String sortedCensusData = stateCensusAnalyzer.getPopulationDensityStateWiseSortedCensusData();
         StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
         Assert.assertEquals("86", statesCensusCSV[28].densityPerSqKm);
+    }
+
+    @Test
+    public void givenStateCensusData_SortBasedOnArea_ShouldReturnSortedResultAndHighestPopulationDencityState() throws CensusAnalyzerException {
+        stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
+        String sortedCensusData = stateCensusAnalyzer.getAreaWiseWiseSortedStateCensusData();
+        StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
+        Assert.assertEquals("10486", statesCensusCSV[0].areaInSqKm);
+    }
+
+    @Test
+    public void givenStateCensusData_SortBasedOnArea_ShouldReturnSortedResultAndLowestPopulationDensityState() throws CensusAnalyzerException {
+        stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
+        String sortedCensusData = stateCensusAnalyzer.getAreaWiseWiseSortedStateCensusData();
+        StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
+        Assert.assertEquals("94163", statesCensusCSV[28].areaInSqKm);
     }
 
 }
