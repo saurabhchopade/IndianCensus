@@ -106,6 +106,8 @@ public class StateCensusAnalyzer {
     }
 
     /**
+     * Sort as Population Density
+     *
      * @return
      * @throws CensusAnalyzerException
      */
@@ -114,6 +116,22 @@ public class StateCensusAnalyzer {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.NOCENSUSDATA, "No Census Data");
         }
         Comparator<StatesCensusCSV> censusCSVComparator = Comparator.comparing(census -> census.densityPerSqKm);
+        this.sorting(censusCSVList, censusCSVComparator);
+        String sortedStateCensusJson = new Gson().toJson(censusCSVList);
+        return sortedStateCensusJson;
+    }
+
+    /**
+     * Sort as per Area
+     *
+     * @return
+     * @throws CensusAnalyzerException
+     */
+    public String getAreaWiseWiseSortedStateCensusData() throws CensusAnalyzerException {
+        if (censusCSVList == null || censusCSVList.size() == 0) {
+            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.NOCENSUSDATA, "No Census Data");
+        }
+        Comparator<StatesCensusCSV> censusCSVComparator = Comparator.comparing(census -> census.areaInSqKm);
         this.sorting(censusCSVList, censusCSVComparator);
         String sortedStateCensusJson = new Gson().toJson(censusCSVList);
         return sortedStateCensusJson;
