@@ -5,10 +5,8 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import java.io.Reader;
-import java.util.Iterator;
 import java.util.List;
-
-public class IOpenCsvBuilderImpl<E> implements IOpenCsvBuilder {
+public class OpenCsvBuilderImpl<E> implements IOpenCsvBuilder {
     /**
      * Implementation of the interface Here
      *
@@ -17,16 +15,20 @@ public class IOpenCsvBuilderImpl<E> implements IOpenCsvBuilder {
      * @return
      * @throws CsvBuilderException
      */
-    @Override
-    public Iterator<E> getCSVFileIterator(Reader reader, Class csvClass) throws CsvBuilderException {
-        return this.getCsvBean(reader, csvClass).iterator();
-    }
 
     @Override
     public List getCSVFileList(Reader reader, Class csvClass) throws CsvBuilderException {
         return this.getCsvBean(reader, csvClass).parse();
     }
 
+    /**
+     * Implementation for get csv Bean
+     *
+     * @param reader
+     * @param csvClass
+     * @return
+     * @throws CsvBuilderException
+     */
     private CsvToBean<E> getCsvBean(Reader reader, Class csvClass) throws CsvBuilderException {
         try {
             CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder(reader);

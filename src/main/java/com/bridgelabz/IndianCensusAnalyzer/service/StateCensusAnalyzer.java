@@ -13,9 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.StreamSupport;
 
 public class StateCensusAnalyzer {
     List<StatesCensusCSV> censusCSVList = null;
@@ -69,12 +67,6 @@ public class StateCensusAnalyzer {
         }
     }
 
-    private <E> int getCount(Iterator<E> iterator) {
-        Iterable<E> csvIterable = () -> iterator;
-        int noOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
-        return noOfEntries;
-    }
-
     /**
      * Sort As Per State
      * @return
@@ -105,9 +97,41 @@ public class StateCensusAnalyzer {
         return sortedStateCensusJson;
     }
 
+    /**
+     * Sort as Population Density
+     *
+     * @return
+     * @throws CensusAnalyzerException
+     */
+    public String getPopulationDensityStateWiseSortedCensusData() throws CensusAnalyzerException {
+        if (censusCSVList == null || censusCSVList.size() == 0) {
+            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.NOCENSUSDATA, "No Census Data");
+        }
+        Comparator<StatesCensusCSV> censusCSVComparator = Comparator.comparing(census -> census.densityPerSqKm);
+        this.sorting(censusCSVList, censusCSVComparator);
+        String sortedStateCensusJson = new Gson().toJson(censusCSVList);
+        return sortedStateCensusJson;
+    }
+
+    /**
+     * Sort as per Area
+     *
+     * @return
+     * @throws CensusAnalyzerException
+     */
+    public String getAreaWiseWiseSortedStateCensusData() throws CensusAnalyzerException {
+        if (censusCSVList == null || censusCSVList.size() == 0) {
+            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.NOCENSUSDATA, "No Census Data");
+        }
+        Comparator<StatesCensusCSV> censusCSVComparator = Comparator.comparing(census -> census.areaInSqKm);
+        this.sorting(censusCSVList, censusCSVComparator);
+        String sortedStateCensusJson = new Gson().toJson(censusCSVList);
+        return sortedStateCensusJson;
+    }
 
     /**
      * Sort As per StateCode
+     *
      * @return
      * @throws CensusAnalyzerException
      */
@@ -126,13 +150,13 @@ public class StateCensusAnalyzer {
      * @param censusCSVComparator
      */
     private <E> void sorting(List<E> csvFileList, Comparator<E> censusCSVComparator) {
-        for (int i = 0; i < csvFileList.size(); i++) {
-            for (int j = 0; j < csvFileList.size() - i - 1; j++) {
-                E census1 = csvFileList.get(j);
-                E census2 = csvFileList.get(j + 1);
-                if (censusCSVComparator.compare(census1, census2) < 0) {
-                    csvFileList.set(j, census2);
-                    csvFileList.set(j + 1, census1);
+        for (int move = 0; move < csvFileList.size(); move++) {
+            for (int index = 0; index < csvFileList.size() - move - 1; index++) {
+                E firstCensus = csvFileList.get(index);
+                E secondCensus = csvFileList.get(index + 1);
+                if (censusCSVComparator.compare(firstCensus, secondCensus) > 0) {
+                    csvFileList.set(index, secondCensus);
+                    csvFileList.set(index + 1, firstCensus);
                 }
             }
         }
