@@ -190,6 +190,13 @@ public class StateCensusAnalyzerTest {
 
     //==================US=============================
     @Test
+    public void givenUsCensusCsvFile_LoadData_ShouldMatchNoOFRecords() throws CensusAnalyzerException {
+        int checkEntries;
+        checkEntries = stateCensusAnalyzer.loadUsCensusData(USCENSUSDATA);
+        Assert.assertEquals(51, checkEntries);
+    }
+
+    @Test
     public void givenUsCensusData_SortBasedPopulation_ShouldReturnSortedResult() throws CensusAnalyzerException, IOException {
         stateCensusAnalyzer.loadUsCensusData(USCENSUSDATA);
         int noOfStateSorted = stateCensusAnalyzer.getUsPopulousStateWiseSortedCensusData();

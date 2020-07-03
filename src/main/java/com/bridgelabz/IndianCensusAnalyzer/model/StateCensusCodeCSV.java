@@ -26,5 +26,4 @@ public class StateCensusCodeCSV {
                 ", StateCode='" + stateCode + '\'' +
                 '}';
     }
-
 }
