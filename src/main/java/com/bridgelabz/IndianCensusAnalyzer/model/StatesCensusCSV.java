@@ -1,22 +1,21 @@
 package com.bridgelabz.IndianCensusAnalyzer.model;
-
 import com.opencsv.bean.CsvBindByName;
 
 public class StatesCensusCSV {
         /**
          * Here We Match the Header value for further use
          */
-        @CsvBindByName(column = "State",required = true)
+        @CsvBindByName(column = "State", required = true)
         public String state;
 
-        @CsvBindByName(column = "Population",required = true)
-        public String population;
+        @CsvBindByName(column = "Population", required = true)
+        public Integer population;
 
-        @CsvBindByName(column = "AreaInSqKm",required = true)
-        public String areaInSqKm;
+        @CsvBindByName(column = "AreaInSqKm", required = true)
+        public Integer areaInSqKm;
 
-        @CsvBindByName(column = "DensityPerSqKm",required = true)
-        public String densityPerSqKm;
+        @CsvBindByName(column = "DensityPerSqKm", required = true)
+        public Integer densityPerSqKm;
 
         @Override
         public String toString() {
@@ -27,6 +26,5 @@ public class StatesCensusCSV {
                         ", DensityPerSqKm='" + densityPerSqKm + '\'' +
                         '}';
         }
-
 }
 

@@ -5,6 +5,7 @@ import com.bridgelabz.IndianCensusAnalyzer.exception.CsvBuilderException;
 import com.bridgelabz.IndianCensusAnalyzer.model.StateCensusCodeCSV;
 import com.bridgelabz.IndianCensusAnalyzer.model.StateCensusDAO;
 import com.bridgelabz.IndianCensusAnalyzer.model.StatesCensusCSV;
+import com.bridgelabz.IndianCensusAnalyzer.model.UsCensusCSV;
 import com.google.gson.Gson;
 
 import java.io.FileNotFoundException;
@@ -68,7 +69,33 @@ public class StateCensusAnalyzer {
             while (censusCSVIterator.hasNext())
                 this.censusList.add(new StateCensusDAO(censusCSVIterator.next()));
             return censusList.size();
+        } catch (FileNotFoundException e) {
+            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.WRONGEXTESNSION, "Please Enter Proper File Extension");
+        } catch (InvalidPathException | IOException e) {
+            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, "Please Enter Proper File Path");
+        } catch (RuntimeException e) {
+            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEINTERNALISSUE, "Please check in file Content ");
+        } catch (CsvBuilderException e) {
+            throw new CensusAnalyzerException(e.getMessage(), e.type.name());
+        }
+    }
 
+
+    /**
+     * To Load the StateCode CSV File
+     * @param StateCodeCsvPath
+     * @return
+     * @throws CensusAnalyzerException
+     */
+    public int loadUsCensusData(String StateCodeCsvPath) throws CensusAnalyzerException {
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get(StateCodeCsvPath));
+            IOpenCsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
+            Iterator<UsCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, UsCensusCSV.class);
+            new StateCensusAnalyzer();
+            while (censusCSVIterator.hasNext())
+                this.censusList.add(new StateCensusDAO(censusCSVIterator.next()));
+            return censusList.size();
         } catch (FileNotFoundException e) {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.WRONGEXTESNSION, "Please Enter Proper File Extension");
         } catch (InvalidPathException | IOException e) {
@@ -137,6 +164,39 @@ public class StateCensusAnalyzer {
      */
     public int getAreaWiseWiseSortedStateCensusData() throws IOException {
         censusList.sort((firstElement, secondElement) -> secondElement.areaInSqKm.compareTo(firstElement.areaInSqKm));
+        String sortedStateCensusJson = new Gson().toJson(censusList);
+        return createJsonFile(censusList, sortedStateCensusJson);
+    }
+
+    /**
+     * Sort Based on Us Population
+     * @return
+     * @throws IOException
+     */
+    public int getUsPopulousStateWiseSortedCensusData() throws IOException {
+        censusList.sort((firstElement, secondElement) -> secondElement.usPopulation.compareTo(firstElement.usPopulation));
+        String sortedStateCensusJson = new Gson().toJson(censusList);
+        return createJsonFile(censusList, sortedStateCensusJson);
+    }
+
+    /**
+     * Sorted order based on usPopulationDensity
+     * @return
+     * @throws IOException
+     */
+    public int getUsPopulationDensityStateWiseSortedCensusData() throws IOException {
+        censusList.sort((firstElement, secondElement) -> secondElement.usPopulationDensity.compareTo(firstElement.usPopulationDensity));
+        String sortedStateCensusJson = new Gson().toJson(censusList);
+        return createJsonFile(censusList, sortedStateCensusJson);
+    }
+
+    /**
+     * Sorted order based on totalArea
+     * @return
+     * @throws IOException
+     */
+    public int getUsTotalAreaStateWiseSortedCensusData() throws IOException {
+        censusList.sort((firstElement, secondElement) -> secondElement.totalArea.compareTo(firstElement.totalArea));
         String sortedStateCensusJson = new Gson().toJson(censusList);
         return createJsonFile(censusList, sortedStateCensusJson);
     }

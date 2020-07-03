@@ -5,6 +5,7 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import java.io.Reader;
+import java.util.Iterator;
 import java.util.List;
 public class OpenCsvBuilderImpl<E> implements IOpenCsvBuilder {
     /**
@@ -35,6 +36,15 @@ public class OpenCsvBuilderImpl<E> implements IOpenCsvBuilder {
             csvToBeanBuilder.withType(csvClass);
             csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
             return csvToBeanBuilder.build();
+        } catch (IllegalStateException e) {
+            throw new CsvBuilderException(e.getMessage(), CsvBuilderException.ExceptionType.PARSERERROR);
+        }
+    }
+
+    public Iterator<E> getCSVFileIterator(Reader reader, Class csvClass) throws CsvBuilderException {
+        try {
+            CsvToBean<E> csvToBean = new CsvToBeanBuilder(reader).withType(csvClass).withIgnoreLeadingWhiteSpace(true).build();
+            return csvToBean.iterator();
         } catch (IllegalStateException e) {
             throw new CsvBuilderException(e.getMessage(), CsvBuilderException.ExceptionType.PARSERERROR);
         }
