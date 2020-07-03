@@ -5,6 +5,7 @@ import com.bridgelabz.IndianCensusAnalyzer.exception.CsvBuilderException;
 import com.bridgelabz.IndianCensusAnalyzer.model.StateCensusCodeCSV;
 import com.bridgelabz.IndianCensusAnalyzer.model.StateCensusDAO;
 import com.bridgelabz.IndianCensusAnalyzer.model.StatesCensusCSV;
+import com.bridgelabz.IndianCensusAnalyzer.model.UsCensusCSV;
 import com.google.gson.Gson;
 
 import java.io.FileNotFoundException;
@@ -68,7 +69,33 @@ public class StateCensusAnalyzer {
             while (censusCSVIterator.hasNext())
                 this.censusList.add(new StateCensusDAO(censusCSVIterator.next()));
             return censusList.size();
+        } catch (FileNotFoundException e) {
+            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.WRONGEXTESNSION, "Please Enter Proper File Extension");
+        } catch (InvalidPathException | IOException e) {
+            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, "Please Enter Proper File Path");
+        } catch (RuntimeException e) {
+            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEINTERNALISSUE, "Please check in file Content ");
+        } catch (CsvBuilderException e) {
+            throw new CensusAnalyzerException(e.getMessage(), e.type.name());
+        }
+    }
 
+
+    /**
+     * To Load the StateCode CSV File
+     * @param StateCodeCsvPath
+     * @return
+     * @throws CensusAnalyzerException
+     */
+    public int loadUsCensusData(String StateCodeCsvPath) throws CensusAnalyzerException {
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get(StateCodeCsvPath));
+            IOpenCsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
+            Iterator<UsCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, UsCensusCSV.class);
+            new StateCensusAnalyzer();
+            while (censusCSVIterator.hasNext())
+                this.censusList.add(new StateCensusDAO(censusCSVIterator.next()));
+            return censusList.size();
         } catch (FileNotFoundException e) {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.WRONGEXTESNSION, "Please Enter Proper File Extension");
         } catch (InvalidPathException | IOException e) {
