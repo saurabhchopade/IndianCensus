@@ -191,6 +191,17 @@ public class StateCensusAnalyzer {
     }
 
     /**
+     * Sorted order based on totalArea
+     * @return
+     * @throws IOException
+     */
+    public int getUsTotalAreaStateWiseSortedCensusData() throws IOException {
+        censusList.sort((firstElement, secondElement) -> secondElement.totalArea.compareTo(firstElement.totalArea));
+        String sortedStateCensusJson = new Gson().toJson(censusList);
+        return createJsonFile(censusList, sortedStateCensusJson);
+    }
+
+    /**
      * Here we create Json file for each time
      *
      * @param censusLister
