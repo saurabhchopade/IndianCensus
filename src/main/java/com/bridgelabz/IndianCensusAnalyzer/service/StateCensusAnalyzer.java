@@ -168,8 +168,24 @@ public class StateCensusAnalyzer {
         return createJsonFile(censusList, sortedStateCensusJson);
     }
 
-    public int getPopulousUsPopulousStateWiseSortedCensusData() throws IOException {
+    /**
+     * Sort Based on Us Population
+     * @return
+     * @throws IOException
+     */
+    public int getUsPopulousStateWiseSortedCensusData() throws IOException {
         censusList.sort((firstElement, secondElement) -> secondElement.usPopulation.compareTo(firstElement.usPopulation));
+        String sortedStateCensusJson = new Gson().toJson(censusList);
+        return createJsonFile(censusList, sortedStateCensusJson);
+    }
+
+    /**
+     * Sorted order based on usPopulationDensity
+     * @return
+     * @throws IOException
+     */
+    public int getUsPopulationDensityStateWiseSortedCensusData() throws IOException {
+        censusList.sort((firstElement, secondElement) -> secondElement.usPopulationDensity.compareTo(firstElement.usPopulationDensity));
         String sortedStateCensusJson = new Gson().toJson(censusList);
         return createJsonFile(censusList, sortedStateCensusJson);
     }
