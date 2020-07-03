@@ -168,6 +168,12 @@ public class StateCensusAnalyzer {
         return createJsonFile(censusList, sortedStateCensusJson);
     }
 
+    public int getPopulousUsPopulousStateWiseSortedCensusData() throws IOException {
+        censusList.sort((firstElement, secondElement) -> secondElement.usPopulation.compareTo(firstElement.usPopulation));
+        String sortedStateCensusJson = new Gson().toJson(censusList);
+        return createJsonFile(censusList, sortedStateCensusJson);
+    }
+
     /**
      * Here we create Json file for each time
      *
