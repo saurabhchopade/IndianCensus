@@ -19,6 +19,7 @@ public class StateCensusAnalyzerTest {
     private static final String STATECODECSVPATH = "/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/main/resources/IndiaStateCode.csv";
     private static final String STATECODEDELIMITER = "/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/test/resources/IndiaStateCodeDelimiter.csv";
     private static final String STATECODEHEADER = "/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/test/resources/IndiaStateCodeHeader.csv";
+    private static final String USCENSUSDATA = "/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/test/resources/USCensusData.csv";
     StateCensusAnalyzer stateCensusAnalyzer;
 
     @Before
@@ -185,5 +186,13 @@ public class StateCensusAnalyzerTest {
         stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
         int noOfStateSorted = stateCensusAnalyzer.getAreaWiseWiseSortedStateCensusData();
         Assert.assertEquals(29, noOfStateSorted);
+    }
+
+    //==================US=============================
+    @Test
+    public void givenUsCensusData_SortBasedPopulation_ShouldReturnSortedResult() throws CensusAnalyzerException, IOException {
+        stateCensusAnalyzer.loadUsCensusData(USCENSUSDATA);
+        int noOfStateSorted = stateCensusAnalyzer.getPopulousUsPopulousStateWiseSortedCensusData();
+        Assert.assertEquals(51, noOfStateSorted);
     }
 }
