@@ -195,10 +195,18 @@ public class StateCensusAnalyzerTest {
         int noOfStateSorted = stateCensusAnalyzer.getUsPopulousStateWiseSortedCensusData();
         Assert.assertEquals(51, noOfStateSorted);
     }
+
     @Test
     public void givenUsCensusData_SortBasedPopulationDensity_ShouldReturnSortedResult() throws CensusAnalyzerException, IOException {
         stateCensusAnalyzer.loadUsCensusData(USCENSUSDATA);
         int noOfStateSorted = stateCensusAnalyzer.getUsPopulationDensityStateWiseSortedCensusData();
+        Assert.assertEquals(51, noOfStateSorted);
+    }
+
+    @Test
+    public void givenUsCensusData_SortBasedTotalArea_ShouldReturnSortedResult() throws CensusAnalyzerException, IOException {
+        stateCensusAnalyzer.loadUsCensusData(USCENSUSDATA);
+        int noOfStateSorted = stateCensusAnalyzer.getUsTotalAreaStateWiseSortedCensusData();
         Assert.assertEquals(51, noOfStateSorted);
     }
 }
