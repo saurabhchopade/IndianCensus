@@ -1,12 +1,14 @@
 package com.bridgelabz.IndianCensusAnalyzer.service;
 
 import com.bridgelabz.IndianCensusAnalyzer.exception.CensusAnalyzerException;
-import com.bridgelabz.IndianCensusAnalyzer.exception.CsvBuilderException;
 import com.bridgelabz.IndianCensusAnalyzer.model.StateCensusCodeCSV;
 import com.bridgelabz.IndianCensusAnalyzer.model.StateCensusDAO;
 import com.bridgelabz.IndianCensusAnalyzer.model.StatesCensusCSV;
 import com.bridgelabz.IndianCensusAnalyzer.model.UsCensusCSV;
 import com.google.gson.Gson;
+import csvbuilder.CsvBuilderException;
+import csvbuilder.CsvBuilderFactory;
+import csvbuilder.IOpenCsvBuilder;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -16,7 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class StateCensusAnalyzer {
     String JSONFILEPATH = "/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/main/resources/sortedJson.json";
 
     List<StateCensusDAO> censusList;
+
     public StateCensusAnalyzer() {
         this.censusList = new ArrayList();
     }
@@ -36,63 +38,46 @@ public class StateCensusAnalyzer {
      * @throws CensusAnalyzerException
      */
     public int loadStateCensusData(String StateCsvPath) throws CensusAnalyzerException {
-        try {
-            Reader reader = Files.newBufferedReader(Paths.get(StateCsvPath));
-            IOpenCsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
-            Iterator<StatesCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, StatesCensusCSV.class);
-            while (censusCSVIterator.hasNext())
-                this.censusList.add(new StateCensusDAO(censusCSVIterator.next()));
-            return censusList.size();
-        } catch (FileNotFoundException e) {
-            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.WRONGEXTESNSION, "Please Enter Proper File Path");
-        } catch (RuntimeException e) {
-            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEINTERNALISSUE, "Please check in file Content ");
-        } catch (IOException e) {
-            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, "Please Enter Proper File Path");
-        } catch (CsvBuilderException e) {
-            throw new CensusAnalyzerException(e.getMessage(), e.type.name());
-        }
+        return this.loadCensusData(StateCsvPath, StatesCensusCSV.class);
     }
 
     /**
      * To Load the StateCode CSV File
+     *
      * @param StateCodeCsvPath
      * @return
      * @throws CensusAnalyzerException
      */
     public int loadStateCensusCodeData(String StateCodeCsvPath) throws CensusAnalyzerException {
-        try {
-            Reader reader = Files.newBufferedReader(Paths.get(StateCodeCsvPath));
-            IOpenCsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
-            Iterator<StateCensusCodeCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, StateCensusCodeCSV.class);
-            new StateCensusAnalyzer();
-            while (censusCSVIterator.hasNext())
-                this.censusList.add(new StateCensusDAO(censusCSVIterator.next()));
-            return censusList.size();
-        } catch (FileNotFoundException e) {
-            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.WRONGEXTESNSION, "Please Enter Proper File Extension");
-        } catch (InvalidPathException | IOException e) {
-            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, "Please Enter Proper File Path");
-        } catch (RuntimeException e) {
-            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEINTERNALISSUE, "Please check in file Content ");
-        } catch (CsvBuilderException e) {
-            throw new CensusAnalyzerException(e.getMessage(), e.type.name());
-        }
+        return this.loadCensusData(StateCodeCsvPath, StateCensusCodeCSV.class);
     }
-
 
     /**
      * To Load the StateCode CSV File
+     *
      * @param StateCodeCsvPath
      * @return
      * @throws CensusAnalyzerException
      */
     public int loadUsCensusData(String StateCodeCsvPath) throws CensusAnalyzerException {
+        return this.loadCensusData(StateCodeCsvPath, UsCensusCSV.class);
+
+    }
+
+    /**
+     * This will load data for all format
+     *
+     * @param csvPath
+     * @param censusCSVClass
+     * @param <E>
+     * @return
+     * @throws CensusAnalyzerException
+     */
+    public <E> int loadCensusData(String csvPath, Class<E> censusCSVClass) throws CensusAnalyzerException {
         try {
-            Reader reader = Files.newBufferedReader(Paths.get(StateCodeCsvPath));
+            Reader reader = Files.newBufferedReader(Paths.get(csvPath));
             IOpenCsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
-            Iterator<UsCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, UsCensusCSV.class);
-            new StateCensusAnalyzer();
+            Iterator<E> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, censusCSVClass);
             while (censusCSVIterator.hasNext())
                 this.censusList.add(new StateCensusDAO(censusCSVIterator.next()));
             return censusList.size();
@@ -109,12 +94,12 @@ public class StateCensusAnalyzer {
 
     /**
      * Sort As Per State
+     *
      * @return
      * @throws CensusAnalyzerException
      */
     public String getStateWiseSortedCensusData() {
-        Comparator<StateCensusDAO> censusCSVComparator = Comparator.comparing(census -> census.state);
-        this.sorting(censusList, censusCSVComparator);
+        censusList.sort((firstElement, secondElement) -> secondElement.State.compareTo(firstElement.State));
         String sortedStateCensusJson = new Gson().toJson(censusList);
         return sortedStateCensusJson;
     }
@@ -126,8 +111,7 @@ public class StateCensusAnalyzer {
      * @throws CensusAnalyzerException
      */
     public String getStateCodeWiseSortedCensusData() {
-        Comparator<StateCensusDAO> censusCSVComparator = Comparator.comparing(census -> census.stateCode);
-        this.sorting(censusList, censusCSVComparator);
+        censusList.sort((firstElement, secondElement) -> secondElement.stateCode.compareTo(firstElement.stateCode));
         String sortedStateCensusJson = new Gson().toJson(censusList);
         return sortedStateCensusJson;
     }
@@ -170,6 +154,7 @@ public class StateCensusAnalyzer {
 
     /**
      * Sort Based on Us Population
+     *
      * @return
      * @throws IOException
      */
@@ -181,6 +166,7 @@ public class StateCensusAnalyzer {
 
     /**
      * Sorted order based on usPopulationDensity
+     *
      * @return
      * @throws IOException
      */
@@ -192,6 +178,7 @@ public class StateCensusAnalyzer {
 
     /**
      * Sorted order based on totalArea
+     *
      * @return
      * @throws IOException
      */
@@ -217,24 +204,4 @@ public class StateCensusAnalyzer {
         writer.close();
         return censusLister.size();
     }
-
-    /**
-     * Sorting method do sort
-     *
-     * @param csvFileList
-     * @param censusCSVComparator
-     */
-    private <E> void sorting(List<E> csvFileList, Comparator<E> censusCSVComparator) {
-        for (int move = 0; move < csvFileList.size(); move++) {
-            for (int index = 0; index < csvFileList.size() - move - 1; index++) {
-                E firstCensus = csvFileList.get(index);
-                E secondCensus = csvFileList.get(index + 1);
-                if (censusCSVComparator.compare(firstCensus, secondCensus) > 0) {
-                    csvFileList.set(index, secondCensus);
-                    csvFileList.set(index + 1, firstCensus);
-                }
-            }
-        }
-    }
 }
-

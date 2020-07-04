@@ -5,31 +5,31 @@ import com.opencsv.bean.CsvBindByName;
 public class UsCensusCSV {
 
     @CsvBindByName(column = "State Id", required = true)
-    public String stateId;
+    public static String stateId;
 
     @CsvBindByName(column = "State", required = true)
-    public String state;
+    public static String state;
 
     @CsvBindByName(column = "Population", required = true)
-    public Integer population;
+    public static Integer population;
 
     @CsvBindByName(column = "Housing units", required = true)
-    public Float housingUnits;
+    public static Float housingUnits;
 
     @CsvBindByName(column = "Total area", required = true)
-    public Float totalArea;
+    public static Float totalArea;
 
     @CsvBindByName(column = "Water area", required = true)
-    public Float waterArea;
+    public static Float waterArea;
 
     @CsvBindByName(column = "Land area", required = true)
-    public Float landArea;
+    public static Float landArea;
 
     @CsvBindByName(column = "Population Density", required = true)
-    public Float populationDensity;
+    public static Float populationDensity;
 
     @CsvBindByName(column = "Housing Density", required = true)
-    public Float housingDensity;
+    public static Float housingDensity;
 
     @Override
     public String toString() {

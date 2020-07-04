@@ -1,7 +1,7 @@
 package com.bridgelabz.IndianCensusAnalyzer.model;
 
 public class StateCensusDAO {
-    public String state;
+    public String State;
     public Integer population;
     public Integer areaInSqKm;
     public Integer densityPerSqKm;
@@ -16,27 +16,26 @@ public class StateCensusDAO {
     public Float usPopulationDensity;
     public Float housingDensity;
 
-    public StateCensusDAO(StatesCensusCSV statesCensusCSV) {
-        state = statesCensusCSV.state;
-        population = statesCensusCSV.population;
-        areaInSqKm = statesCensusCSV.areaInSqKm;
-        densityPerSqKm = statesCensusCSV.densityPerSqKm;
-    }
-
-    public StateCensusDAO(StateCensusCodeCSV stateCensusCodeCSV) {
-        stateCode = stateCensusCodeCSV.stateCode;
-    }
-
-
-    public StateCensusDAO(UsCensusCSV usCensusCSV) {
-        stateId = usCensusCSV.stateId;
-        usState = usCensusCSV.state;
-        usPopulation = usCensusCSV.population;
-        housingUnits = usCensusCSV.housingUnits;
-        totalArea = usCensusCSV.totalArea;
-        waterArea = usCensusCSV.waterArea;
-        landArea = usCensusCSV.landArea;
-        usPopulationDensity = usCensusCSV.populationDensity;
-        housingDensity = usCensusCSV.housingDensity;
+    /**
+     * One DAO for all
+     *
+     * @param usCensusCSV
+     * @param <E>
+     */
+    public <E> StateCensusDAO(E usCensusCSV) {
+        stateId = UsCensusCSV.stateId;
+        usState = UsCensusCSV.state;
+        usPopulation = UsCensusCSV.population;
+        housingUnits = UsCensusCSV.housingUnits;
+        totalArea = UsCensusCSV.totalArea;
+        waterArea = UsCensusCSV.waterArea;
+        landArea = UsCensusCSV.landArea;
+        usPopulationDensity = UsCensusCSV.populationDensity;
+        housingDensity = UsCensusCSV.housingDensity;
+        State = StatesCensusCSV.State;
+        population = StatesCensusCSV.population;
+        areaInSqKm = StatesCensusCSV.areaInSqKm;
+        densityPerSqKm = StatesCensusCSV.densityPerSqKm;
+        stateCode = StateCensusCodeCSV.stateCode;
     }
 }
