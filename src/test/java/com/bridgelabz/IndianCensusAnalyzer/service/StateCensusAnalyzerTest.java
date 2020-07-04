@@ -139,7 +139,7 @@ public class StateCensusAnalyzerTest {
         stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
         String sortedCensusData = stateCensusAnalyzer.getStateWiseSortedCensusData();
         StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
-        Assert.assertEquals("Andhra Pradesh", statesCensusCSV[0].state);
+        Assert.assertEquals("Andhra Pradesh", statesCensusCSV[28].State);
     }
 
     @Test
@@ -147,15 +147,7 @@ public class StateCensusAnalyzerTest {
         stateCensusAnalyzer.loadStateCensusData(STATECENSUSCSVPATH);
         String sortedCensusData = stateCensusAnalyzer.getStateWiseSortedCensusData();
         StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
-        Assert.assertEquals("West Bengal", statesCensusCSV[28].state);
-    }
-
-    @Test
-    public void givenStateCensusCodeData_SortBasedOnStateCode_ShouldReturnSortedResultAndFirstStateCode() throws CensusAnalyzerException {
-        stateCensusAnalyzer.loadStateCensusCodeData(STATECODECSVPATH);
-        String sortedCensusData = stateCensusAnalyzer.getStateCodeWiseSortedCensusData();
-        StateCensusCodeCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusCodeCSV[].class);
-        Assert.assertEquals("AD", statesCensusCSV[0].stateCode);
+        Assert.assertEquals("West Bengal", statesCensusCSV[28].State);
     }
 
     @Test
@@ -164,6 +156,14 @@ public class StateCensusAnalyzerTest {
         String sortedCensusData = stateCensusAnalyzer.getStateCodeWiseSortedCensusData();
         StateCensusCodeCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusCodeCSV[].class);
         Assert.assertEquals("WB", statesCensusCSV[36].stateCode);
+    }
+
+    @Test
+    public void givenStateCensusCodeData_SortBasedOnStateCode_ShouldReturnSortedResultAndFirstStateCode() throws CensusAnalyzerException {
+        stateCensusAnalyzer.loadStateCensusCodeData(STATECODECSVPATH);
+        String sortedCensusData = stateCensusAnalyzer.getStateCodeWiseSortedCensusData();
+        StateCensusCodeCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusCodeCSV[].class);
+        Assert.assertEquals("WB", statesCensusCSV[0].stateCode);
     }
 
     //====================================================================================================
