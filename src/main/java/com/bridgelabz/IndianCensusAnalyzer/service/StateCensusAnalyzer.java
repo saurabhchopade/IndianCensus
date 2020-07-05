@@ -6,30 +6,14 @@ import com.bridgelabz.IndianCensusAnalyzer.model.StateCensusDAO;
 import com.bridgelabz.IndianCensusAnalyzer.model.StatesCensusCSV;
 import com.bridgelabz.IndianCensusAnalyzer.model.UsCensusCSV;
 import com.google.gson.Gson;
-import csvbuilder.CsvBuilderException;
-import csvbuilder.CsvBuilderFactory;
-import csvbuilder.IOpenCsvBuilder;
 
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class StateCensusAnalyzer {
     String JSONFILEPATH = "/home/saurabh/IdeaProjects/IndianCensusAnalazer/src/main/resources/sortedJson.json";
-
     List<StateCensusDAO> censusList;
-
-    public StateCensusAnalyzer() {
-        this.censusList = new ArrayList();
-    }
-
     /**
      * To Load The State Census Csv File
      *
@@ -38,7 +22,8 @@ public class StateCensusAnalyzer {
      * @throws CensusAnalyzerException
      */
     public int loadStateCensusData(String StateCsvPath) throws CensusAnalyzerException {
-        return this.loadCensusData(StateCsvPath, StatesCensusCSV.class);
+        censusList = new CensusLoader().loadCensusData(StateCsvPath, StatesCensusCSV.class);
+        return censusList.size();
     }
 
     /**
@@ -49,7 +34,8 @@ public class StateCensusAnalyzer {
      * @throws CensusAnalyzerException
      */
     public int loadStateCensusCodeData(String StateCodeCsvPath) throws CensusAnalyzerException {
-        return this.loadCensusData(StateCodeCsvPath, StateCensusCodeCSV.class);
+        censusList = new CensusLoader().loadCensusData(StateCodeCsvPath, StateCensusCodeCSV.class);
+        return censusList.size();
     }
 
     /**
@@ -60,45 +46,10 @@ public class StateCensusAnalyzer {
      * @throws CensusAnalyzerException
      */
     public int loadUsCensusData(String StateCodeCsvPath) throws CensusAnalyzerException {
-        return this.loadCensusData(StateCodeCsvPath, UsCensusCSV.class);
-
+        censusList = new CensusLoader().loadCensusData(StateCodeCsvPath, UsCensusCSV.class);
+        return censusList.size();
     }
 
-    /**
-     * This will load data for all format
-     *
-     * @param csvPath
-     * @param censusCSVClass
-     * @param <E>
-     * @return
-     * @throws CensusAnalyzerException
-     */
-    public <E> int loadCensusData(String csvPath, Class<E> censusCSVClass) throws CensusAnalyzerException {
-        try {
-            Reader reader = Files.newBufferedReader(Paths.get(csvPath));
-            IOpenCsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
-            Iterator<E> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, censusCSVClass);
-            if (censusCSVClass.getName().contains("UsCensusCSV")) {
-                while (censusCSVIterator.hasNext())
-                    this.censusList.add(new StateCensusDAO((UsCensusCSV) censusCSVIterator.next()));
-            } else if (censusCSVClass.getName().contains("StatesCensusCSV")) {
-                while (censusCSVIterator.hasNext())
-                    this.censusList.add(new StateCensusDAO((StatesCensusCSV) censusCSVIterator.next()));
-            } else if (censusCSVClass.getName().contains("StateCensusCodeCSV")) {
-                while (censusCSVIterator.hasNext())
-                    this.censusList.add(new StateCensusDAO((StateCensusCodeCSV) censusCSVIterator.next()));
-            }
-            return censusList.size();
-        } catch (FileNotFoundException e) {
-            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.WRONGEXTESNSION, "Please Enter Proper File Extension");
-        } catch (InvalidPathException | IOException e) {
-            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEPATHNOTCORRECT, "Please Enter Proper File Path");
-        } catch (RuntimeException e) {
-            throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.FILEINTERNALISSUE, "Please check in file Content ");
-        } catch (CsvBuilderException e) {
-            throw new CensusAnalyzerException(e.getMessage(), e.type.name());
-        }
-    }
 
     /**
      * Sort As Per State
