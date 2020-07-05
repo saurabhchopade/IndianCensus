@@ -7,16 +7,16 @@ public class StateCensusCodeCSV {
      * Here We Match the Header value of csv file for further use
      */
     @CsvBindByName(column = "SrNo", required = true)
-    public static String srNo;
+    public String srNo;
 
     @CsvBindByName(column = "State Name", required = true)
-    public static String stateName;
+    public String stateName;
 
     @CsvBindByName(column = "TIN", required = true)
-    public static String tin;
+    public  String tin;
 
     @CsvBindByName(column = "StateCode", required = true)
-    public static String stateCode;
+    public  String stateCode;
     @Override
     public String toString() {
         return "StatesCensusCodeCSV {" +
