@@ -78,8 +78,16 @@ public class StateCensusAnalyzer {
             Reader reader = Files.newBufferedReader(Paths.get(csvPath));
             IOpenCsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
             Iterator<E> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, censusCSVClass);
-            while (censusCSVIterator.hasNext())
-                this.censusList.add(new StateCensusDAO(censusCSVIterator.next()));
+            if (censusCSVClass.getName().contains("UsCensusCSV")) {
+                while (censusCSVIterator.hasNext())
+                    this.censusList.add(new StateCensusDAO((UsCensusCSV) censusCSVIterator.next()));
+            } else if (censusCSVClass.getName().contains("StatesCensusCSV")) {
+                while (censusCSVIterator.hasNext())
+                    this.censusList.add(new StateCensusDAO((StatesCensusCSV) censusCSVIterator.next()));
+            } else if (censusCSVClass.getName().contains("StateCensusCodeCSV")) {
+                while (censusCSVIterator.hasNext())
+                    this.censusList.add(new StateCensusDAO((StateCensusCodeCSV) censusCSVIterator.next()));
+            }
             return censusList.size();
         } catch (FileNotFoundException e) {
             throw new CensusAnalyzerException(CensusAnalyzerException.exeptiontype.WRONGEXTESNSION, "Please Enter Proper File Extension");
@@ -98,10 +106,10 @@ public class StateCensusAnalyzer {
      * @return
      * @throws CensusAnalyzerException
      */
-    public String getStateWiseSortedCensusData() {
+    public int getStateWiseSortedCensusData() throws IOException {
         censusList.sort((firstElement, secondElement) -> secondElement.State.compareTo(firstElement.State));
         String sortedStateCensusJson = new Gson().toJson(censusList);
-        return sortedStateCensusJson;
+        return createJsonFile(censusList, sortedStateCensusJson);
     }
 
     /**
