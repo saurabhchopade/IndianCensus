@@ -2,6 +2,7 @@ package com.bridgelabz.IndianCensusAnalyzer.service;
 
 import com.bridgelabz.IndianCensusAnalyzer.exception.CensusAnalyzerException;
 import com.bridgelabz.IndianCensusAnalyzer.model.StateCensusDAO;
+import com.bridgelabz.IndianCensusAnalyzer.model.StatesCensusCSV;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Before;
@@ -138,14 +139,14 @@ public class StateCensusAnalyzerTest {
     public void givenStateCensusData_SortBasedOnState_ShouldReturnFirstStateSortedResult() throws CensusAnalyzerException{
         stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.INDIA,STATECENSUSCSVPATH);
         String sortedCensusData = stateCensusAnalyzer.getStateWiseSortedCensusData();
-        StateCensusDAO[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusDAO[].class);
+        StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
         Assert.assertEquals("Andhra Pradesh", statesCensusCSV[0].State);
     }
     @Test
     public void givenStateCensusData_SortBasedOnState_ShouldReturnFirstLastSortedResult() throws CensusAnalyzerException{
         stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.INDIA,STATECENSUSCSVPATH);
         String sortedCensusData = stateCensusAnalyzer.getStateWiseSortedCensusData();
-        StateCensusDAO[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusDAO[].class);
+        StatesCensusCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StatesCensusCSV[].class);
         Assert.assertEquals("West Bengal", statesCensusCSV[28].State);
     }
 
