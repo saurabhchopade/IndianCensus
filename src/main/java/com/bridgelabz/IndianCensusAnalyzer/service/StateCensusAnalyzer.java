@@ -23,7 +23,7 @@ public class StateCensusAnalyzer {
      * @throws CensusAnalyzerException
      */
     public int loadStateCensusData(Country country, String CSVPath) throws CensusAnalyzerException {
-        censusList = new CensusLoader().loadAllCensusData(country, CSVPath);
+       censusList = CensusAdapterFactory.getCensusData(country, CSVPath);
         return censusList.size();
     }
 
