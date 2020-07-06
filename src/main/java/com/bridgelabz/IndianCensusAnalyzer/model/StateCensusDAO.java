@@ -4,15 +4,14 @@ public class StateCensusDAO {
     public String State;
     public Integer population;
     public Integer areaInSqKm;
-    public Integer densityPerSqKm;
+    public Float densityPerSqKm;
     public String stateCode;
     public String usState;
     public Integer usPopulation;
     public Float totalArea;
     public Float usPopulationDensity;
 
-
-    public <E> StateCensusDAO(UsCensusCSV usCensusCSV) {
+    public StateCensusDAO(UsCensusCSV usCensusCSV) {
         usState = usCensusCSV.state;
         usPopulation = usCensusCSV.population;
         totalArea = usCensusCSV.totalArea;
@@ -30,6 +29,11 @@ public class StateCensusDAO {
         densityPerSqKm = statesCensusCSV.densityPerSqKm;
     }
 
+    /**
+     * All Getter methods for DAO
+     *
+     * @return
+     */
     public Float getTotalArea() {
         return totalArea;
     }
@@ -37,29 +41,28 @@ public class StateCensusDAO {
     public Float getUsPopulationDensity() {
         return usPopulationDensity;
     }
-    public Integer getUsPopulation()
-    {
+
+    public Integer getUsPopulation() {
         return usPopulation;
     }
-    public Integer getAreaInSqKm()
-    {
+
+    public Integer getAreaInSqKm() {
         return areaInSqKm;
     }
-    public Integer getDensityPerSqKm()
 
-    {
+    public Float getDensityPerSqKm() {
         return densityPerSqKm;
     }
-    public Integer getPopulation()
-    {
+
+    public Integer getPopulation() {
         return population;
     }
-    public  String getStateCode()
-    {
+
+    public String getStateCode() {
         return stateCode;
     }
-    public String getState()
-    {
+
+    public String getState() {
         return State;
     }
 }

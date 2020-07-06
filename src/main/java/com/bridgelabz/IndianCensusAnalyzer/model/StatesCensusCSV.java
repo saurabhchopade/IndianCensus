@@ -15,7 +15,7 @@ public class StatesCensusCSV {
         public Integer areaInSqKm;
 
         @CsvBindByName(column = "DensityPerSqKm", required = true)
-        public Integer densityPerSqKm;
+        public Float densityPerSqKm;
 
         @Override
         public String toString() {
