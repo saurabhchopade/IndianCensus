@@ -135,19 +135,18 @@ public class StateCensusAnalyzerTest {
 
     //=======================================================================================================
     @Test
-    public void givenStateCensusData_SortBasedOnState_ShouldReturnSortedResult() throws CensusAnalyzerException, IOException {
-        StateCensusAnalyzer s = new StateCensusAnalyzer();
+    public void givenStateCensusData_SortBasedOnState_ShouldReturnFirstStateSortedResult() throws CensusAnalyzerException{
         stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.INDIA,STATECENSUSCSVPATH);
-        int sortedCensusData = stateCensusAnalyzer.getStateWiseSortedCensusData();
-        Assert.assertEquals(29, sortedCensusData);
-    }
-
-    @Test
-    public void givenStateCensusCodeData_SortBasedOnStateCode_ShouldReturnSortedResultAndLastStateCode() throws CensusAnalyzerException {
-        stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.INDIACODE,STATECODECSVPATH);
-        String sortedCensusData = stateCensusAnalyzer.getStateCodeWiseSortedCensusData();
+        String sortedCensusData = stateCensusAnalyzer.getStateWiseSortedCensusData();
         StateCensusDAO[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusDAO[].class);
-        Assert.assertEquals("AD", statesCensusCSV[36].stateCode);
+        Assert.assertEquals("Andhra Pradesh", statesCensusCSV[0].State);
+    }
+    @Test
+    public void givenStateCensusData_SortBasedOnState_ShouldReturnFirstLastSortedResult() throws CensusAnalyzerException{
+        stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.INDIA,STATECENSUSCSVPATH);
+        String sortedCensusData = stateCensusAnalyzer.getStateWiseSortedCensusData();
+        StateCensusDAO[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusDAO[].class);
+        Assert.assertEquals("West Bengal", statesCensusCSV[28].State);
     }
 
     @Test
@@ -155,7 +154,15 @@ public class StateCensusAnalyzerTest {
         stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.INDIACODE,STATECODECSVPATH);
         String sortedCensusData = stateCensusAnalyzer.getStateCodeWiseSortedCensusData();
         StateCensusDAO[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusDAO[].class);
-        Assert.assertEquals("WB", statesCensusCSV[0].stateCode);
+        Assert.assertEquals("AD", statesCensusCSV[0].stateCode);
+    }
+
+    @Test
+    public void givenStateCensusCodeData_SortBasedOnStateCode_ShouldReturnSortedResultAndLastState() throws CensusAnalyzerException {
+        stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.INDIACODE,STATECODECSVPATH);
+        String sortedCensusData = stateCensusAnalyzer.getStateCodeWiseSortedCensusData();
+        StateCensusDAO[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusDAO[].class);
+        Assert.assertEquals("WB", statesCensusCSV[36].stateCode);
     }
 
     //====================================================================================================
@@ -208,14 +215,10 @@ public class StateCensusAnalyzerTest {
         int noOfStateSorted = stateCensusAnalyzer.getUsTotalAreaStateWiseSortedCensusData();
         Assert.assertEquals(51, noOfStateSorted);
     }
-//    @Test
-//    public void givenUsCensusData_SortBasedTotalArea_ShouldReturnComparePopulatedDensity() throws CensusAnalyzerException, IOException {
-//        stateCensusAnalyzer.loadUsCensusData(USCENSUSDATA);
-//        int usSortedData = stateCensusAnalyzer.getUsPopulationDensityStateWiseSortedCensusData();
-//        StateCensusDAO[] statesCensusCSV = new Gson().fromJson(usSortedData, StateCensusDAO[].class);
-//        stateCensusAnalyzer.loadUsCensusData(STATECODECSVPATH);
-//        int indiaSortedData = stateCensusAnalyzer.getPopulationDensityStateWiseSortedCensusData();
-//
-//
-//    }
+
+    @Test
+    public void givenUsCensusData_GivePopulousState_ShouldReturnResult() throws CensusAnalyzerException {
+        String populousState = stateCensusAnalyzer.givePopulousWithDensityState(USCENSUSDATA,STATECENSUSCSVPATH);
+        Assert.assertEquals("District of Columbia", populousState);
+    }
 }
