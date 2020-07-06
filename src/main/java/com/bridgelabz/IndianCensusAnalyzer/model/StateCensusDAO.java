@@ -4,38 +4,65 @@ public class StateCensusDAO {
     public String State;
     public Integer population;
     public Integer areaInSqKm;
-    public Integer densityPerSqKm;
+    public Float densityPerSqKm;
     public String stateCode;
-    public String stateId;
     public String usState;
     public Integer usPopulation;
-    public Float housingUnits;
     public Float totalArea;
-    public Float waterArea;
-    public Float landArea;
     public Float usPopulationDensity;
-    public Float housingDensity;
+
+    public StateCensusDAO(UsCensusCSV usCensusCSV) {
+        usState = usCensusCSV.state;
+        usPopulation = usCensusCSV.population;
+        totalArea = usCensusCSV.totalArea;
+        usPopulationDensity = usCensusCSV.populationDensity;
+    }
+
+    public StateCensusDAO(StateCensusCodeCSV stateCensusCodeCSV) {
+        stateCode = stateCensusCodeCSV.stateCode;
+    }
+
+    public StateCensusDAO(StatesCensusCSV statesCensusCSV) {
+        State = statesCensusCSV.State;
+        population = statesCensusCSV.population;
+        areaInSqKm = statesCensusCSV.areaInSqKm;
+        densityPerSqKm = statesCensusCSV.densityPerSqKm;
+    }
 
     /**
-     * One DAO for all
+     * All Getter methods for DAO
      *
-     * @param usCensusCSV
-     * @param <E>
+     * @return
      */
-    public <E> StateCensusDAO(E usCensusCSV) {
-        stateId = UsCensusCSV.stateId;
-        usState = UsCensusCSV.state;
-        usPopulation = UsCensusCSV.population;
-        housingUnits = UsCensusCSV.housingUnits;
-        totalArea = UsCensusCSV.totalArea;
-        waterArea = UsCensusCSV.waterArea;
-        landArea = UsCensusCSV.landArea;
-        usPopulationDensity = UsCensusCSV.populationDensity;
-        housingDensity = UsCensusCSV.housingDensity;
-        State = StatesCensusCSV.State;
-        population = StatesCensusCSV.population;
-        areaInSqKm = StatesCensusCSV.areaInSqKm;
-        densityPerSqKm = StatesCensusCSV.densityPerSqKm;
-        stateCode = StateCensusCodeCSV.stateCode;
+    public Float getTotalArea() {
+        return totalArea;
+    }
+
+    public Float getUsPopulationDensity() {
+        return usPopulationDensity;
+    }
+
+    public Integer getUsPopulation() {
+        return usPopulation;
+    }
+
+    public Integer getAreaInSqKm() {
+        return areaInSqKm;
+    }
+
+    public Float getDensityPerSqKm() {
+        return densityPerSqKm;
+    }
+
+    public Integer getPopulation() {
+        return population;
+    }
+
+    public String getStateCode() {
+        return stateCode;
+    }
+
+    public String getState() {
+        return State;
     }
 }

@@ -6,16 +6,16 @@ public class StatesCensusCSV {
          * Here We Match the Header value for further use
          */
         @CsvBindByName(column = "State", required = true)
-        public static String State;
+        public String State;
 
         @CsvBindByName(column = "Population", required = true)
-        public static Integer population;
+        public Integer population;
 
         @CsvBindByName(column = "AreaInSqKm", required = true)
-        public static Integer areaInSqKm;
+        public Integer areaInSqKm;
 
         @CsvBindByName(column = "DensityPerSqKm", required = true)
-        public static Integer densityPerSqKm;
+        public Float densityPerSqKm;
 
         @Override
         public String toString() {
