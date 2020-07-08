@@ -11,6 +11,11 @@ public class StateCensusDAO {
     public Float totalArea;
     public Float usPopulationDensity;
 
+    /**
+     * Us Census Data
+     *
+     * @param usCensusCSV
+     */
     public StateCensusDAO(UsCensusCSV usCensusCSV) {
         usState = usCensusCSV.state;
         usPopulation = usCensusCSV.population;
@@ -18,10 +23,20 @@ public class StateCensusDAO {
         usPopulationDensity = usCensusCSV.populationDensity;
     }
 
+    /**
+     * IndiaStateCode Census Data
+     *
+     * @param stateCensusCodeCSV
+     */
     public StateCensusDAO(StateCensusCodeCSV stateCensusCodeCSV) {
         stateCode = stateCensusCodeCSV.stateCode;
     }
 
+    /**
+     * India State Census Data
+     *
+     * @param statesCensusCSV
+     */
     public StateCensusDAO(StatesCensusCSV statesCensusCSV) {
         State = statesCensusCSV.State;
         population = statesCensusCSV.population;
