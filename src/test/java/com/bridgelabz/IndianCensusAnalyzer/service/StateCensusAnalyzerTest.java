@@ -1,6 +1,7 @@
 package com.bridgelabz.IndianCensusAnalyzer.service;
 
 import com.bridgelabz.IndianCensusAnalyzer.exception.CensusAnalyzerException;
+import com.bridgelabz.IndianCensusAnalyzer.model.StateCensusCodeCSV;
 import com.bridgelabz.IndianCensusAnalyzer.model.StateCensusDAO;
 import com.bridgelabz.IndianCensusAnalyzer.model.StatesCensusCSV;
 import com.google.gson.Gson;
@@ -154,7 +155,7 @@ public class StateCensusAnalyzerTest {
     public void givenStateCensusCodeData_SortBasedOnStateCode_ShouldReturnSortedResultAndFirstStateCode() throws CensusAnalyzerException {
         stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.INDIACODE,STATECODECSVPATH);
         String sortedCensusData = stateCensusAnalyzer.getStateCodeWiseSortedCensusData();
-        StateCensusDAO[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusDAO[].class);
+        StateCensusCodeCSV[] statesCensusCSV = new Gson().fromJson(sortedCensusData, StateCensusCodeCSV[].class);
         Assert.assertEquals("AD", statesCensusCSV[0].stateCode);
     }
 
@@ -170,50 +171,43 @@ public class StateCensusAnalyzerTest {
     @Test
     public void givenStateCensusData_SortBasedOnPopulation_ShouldReturnSortedResultAndLowestPopulousState() throws CensusAnalyzerException, IOException {
         stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.INDIA,STATECENSUSCSVPATH);
-        int noOfStateSorted = stateCensusAnalyzer.getPopulousStateWiseSortedCensusData();
+        int noOfStateSorted = stateCensusAnalyzer.sortByGivenData(StateCensusAnalyzer.SortBy.INDPOPULATION);
         Assert.assertEquals(29, noOfStateSorted);
     }
 
     @Test
     public void givenStateCensusData_SortBasedOnPopulationDensity_ShouldReturnSortedResultAndLowestPopulationDensityState() throws CensusAnalyzerException, IOException {
         stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.INDIA,STATECENSUSCSVPATH);
-        int noOfStateSorted = stateCensusAnalyzer.getPopulationDensityStateWiseSortedCensusData();
+        int noOfStateSorted = stateCensusAnalyzer.sortByGivenData(StateCensusAnalyzer.SortBy.INDDENSITY);
         Assert.assertEquals(29, noOfStateSorted);
     }
 
     @Test
     public void givenStateCensusData_SortBasedOnArea_ShouldReturnSortedResultState() throws CensusAnalyzerException, IOException {
         stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.INDIA,STATECENSUSCSVPATH);
-        int noOfStateSorted = stateCensusAnalyzer.getAreaWiseWiseSortedStateCensusData();
+        int noOfStateSorted = stateCensusAnalyzer.sortByGivenData(StateCensusAnalyzer.SortBy.INDAREA);
         Assert.assertEquals(29, noOfStateSorted);
     }
 
     //==================US=============================
     @Test
-    public void givenUsCensusCsvFile_LoadData_ShouldMatchNoOFRecords() throws CensusAnalyzerException {
-        int checkEntries;
-        checkEntries = stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.US,USCENSUSDATA);
-        Assert.assertEquals(51, checkEntries);
-    }
-
-    @Test
     public void givenUsCensusData_SortBasedPopulation_ShouldReturnSortedResult() throws CensusAnalyzerException, IOException {
         stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.US,USCENSUSDATA);
-        int noOfStateSorted = stateCensusAnalyzer.getUsPopulousStateWiseSortedCensusData();
+        int noOfStateSorted = stateCensusAnalyzer.sortByGivenData(StateCensusAnalyzer.SortBy.USPOPULOUSSTATE);
         Assert.assertEquals(51, noOfStateSorted);
     }
 
     @Test
     public void givenUsCensusData_SortBasedPopulationDensity_ShouldReturnSortedResult() throws CensusAnalyzerException, IOException {
         stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.US,USCENSUSDATA);
-        int noOfStateSorted = stateCensusAnalyzer.getUsPopulationDensityStateWiseSortedCensusData();
+        int noOfStateSorted = stateCensusAnalyzer.sortByGivenData(StateCensusAnalyzer.SortBy.USDENSITY);
         Assert.assertEquals(51, noOfStateSorted);
     }
 
     @Test
     public void givenUsCensusData_SortBasedTotalArea_ShouldReturnSortedResult() throws CensusAnalyzerException, IOException {
         stateCensusAnalyzer.loadStateCensusData(StateCensusAnalyzer.Country.US,USCENSUSDATA);
-        int noOfStateSorted = stateCensusAnalyzer.getUsTotalAreaStateWiseSortedCensusData();
+        int noOfStateSorted = stateCensusAnalyzer.sortByGivenData(StateCensusAnalyzer.SortBy.USTOTALAREA);
         Assert.assertEquals(51, noOfStateSorted);
     }
 

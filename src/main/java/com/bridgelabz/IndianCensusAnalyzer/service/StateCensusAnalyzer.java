@@ -15,16 +15,49 @@ public class StateCensusAnalyzer {
 
     public enum Country {US, INDIACODE, INDIA}
 
+    public enum SortBy {INDPOPULATION, INDDENSITY, INDAREA, USPOPULOUSSTATE, USDENSITY, USTOTALAREA}
     /**
      * Csv file loader
+     *
      * @param country
      * @param CSVPath
      * @return
      * @throws CensusAnalyzerException
      */
     public int loadStateCensusData(Country country, String CSVPath) throws CensusAnalyzerException {
-       censusList = CensusAdapterFactory.getCensusData(country, CSVPath);
+        censusList = CensusAdapterFactory.getCensusData(country, CSVPath);
         return censusList.size();
+    }
+
+    /**
+     * It will sort by user choice
+     * @param sortBy
+     * @return
+     * @throws IOException
+     */
+    public int sortByGivenData(StateCensusAnalyzer.SortBy sortBy) throws IOException {
+        switch (sortBy) {
+            case INDPOPULATION:
+                censusList.sort(Comparator.comparing(StateCensusDAO::getPopulation).reversed());
+                return createJsonFile(censusList);
+            case INDDENSITY:
+                censusList.sort(Comparator.comparing(StateCensusDAO::getDensityPerSqKm).reversed());
+                return createJsonFile(censusList);
+            case INDAREA:
+                censusList.sort(Comparator.comparing(StateCensusDAO::getAreaInSqKm).reversed());
+                return createJsonFile(censusList);
+            case USPOPULOUSSTATE:
+                censusList.sort(Comparator.comparing(StateCensusDAO::getUsPopulation).reversed());
+                return createJsonFile(censusList);
+            case USDENSITY:
+                censusList.sort(Comparator.comparing(StateCensusDAO::getUsPopulationDensity).reversed());
+                return createJsonFile(censusList);
+            case USTOTALAREA:
+                censusList.sort(Comparator.comparing(StateCensusDAO::getTotalArea).reversed());
+                return createJsonFile(censusList);
+            default:
+                throw new IllegalStateException("Unexpected value: " + sortBy);
+        }
     }
 
     /**
@@ -51,71 +84,6 @@ public class StateCensusAnalyzer {
         return sortedStateCensusJson;
     }
 
-    /**
-     * Sort As Per DensityPerSqKM
-     *
-     * @return
-     * @throws CensusAnalyzerException
-     */
-    public int getPopulousStateWiseSortedCensusData() throws IOException {
-        censusList.sort(Comparator.comparing(StateCensusDAO::getPopulation).reversed());
-        return createJsonFile(censusList);
-    }
-
-    /**
-     * Sort as Population Density
-     *
-     * @return
-     * @throws CensusAnalyzerException
-     */
-    public int getPopulationDensityStateWiseSortedCensusData() throws IOException {
-        censusList.sort(Comparator.comparing(StateCensusDAO::getDensityPerSqKm).reversed());
-        return createJsonFile(censusList);
-    }
-
-    /**
-     * Sort as per Area
-     *
-     * @return
-     * @throws CensusAnalyzerException
-     */
-    public int getAreaWiseWiseSortedStateCensusData() throws IOException {
-        censusList.sort(Comparator.comparing(StateCensusDAO::getAreaInSqKm).reversed());
-        return createJsonFile(censusList);
-    }
-
-    /**
-     * Sort Based on Us Population
-     *
-     * @return
-     * @throws IOException
-     */
-    public int getUsPopulousStateWiseSortedCensusData() throws IOException {
-        censusList.sort(Comparator.comparing(StateCensusDAO::getUsPopulation).reversed());
-        return createJsonFile(censusList);
-    }
-
-    /**
-     * Sorted order based on usPopulationDensity
-     *
-     * @return
-     * @throws IOException
-     */
-    public int getUsPopulationDensityStateWiseSortedCensusData() throws IOException {
-        censusList.sort(Comparator.comparing(StateCensusDAO::getUsPopulationDensity).reversed());
-        return createJsonFile(censusList);
-    }
-
-    /**
-     * Sorted order based on totalArea
-     *
-     * @return
-     * @throws IOException
-     */
-    public int getUsTotalAreaStateWiseSortedCensusData() throws IOException {
-        censusList.sort(Comparator.comparing(StateCensusDAO::getTotalArea).reversed());
-        return createJsonFile(censusList);
-    }
     /**
      * This method create json file and return  No of of records
      *
